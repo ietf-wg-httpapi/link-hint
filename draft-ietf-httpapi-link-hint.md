@@ -12,6 +12,14 @@ stand_alone: yes
 smart_quotes: no
 pi: [toc, tocindent, sortrefs, symrefs, strict, compact, comments, inline]
 
+venue:
+  group: "Building Blocks for HTTP APIs"
+  type: "Working Group"
+  mail: "httpapi@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/httpapi/"
+  github: "ietf-wg-httpapi/link-lint"
+  latest: "https://ietf-wg-httpapi.github.io/link-hint/draft-ietf-httpapi-link-hint.html"
+
 author:
  -
     ins: M. Nottingham
