@@ -1,0 +1,19 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2023-11-26T00:32:01.222973+00:00",
+  "repo": "ietf-wg-httpapi/link-hint",
+  "labels": [
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    }
+  ],
+  "issues": [],
+  "pulls": []
+}
