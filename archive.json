@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-02T00:32:39.079833+00:00",
+  "timestamp": "2024-07-04T00:32:24.795303+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -28,6 +28,70 @@
       "body": "Right now the data model is JSON-based, which allows arbitrary depth and is not terribly good in HTTP fields and other places like HTML attributes.\r\n\r\nWe could subset JSON like Structured Fields does, or we could adopt the SF type system (or a subset of it).",
       "createdAt": "2024-02-20T05:38:05Z",
       "updatedAt": "2024-02-20T05:38:05Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOKMq2fs6OKmgm",
+      "title": "Link hint to indicate a resource class",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/3",
+      "state": "OPEN",
+      "author": "mnot",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "See https://github.com/mnot/I-D/issues/316",
+      "createdAt": "2024-07-02T03:54:33Z",
+      "updatedAt": "2024-07-02T03:54:33Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOKMq2fs6OKmmH",
+      "title": "Correct usage of profiles within Link Hints",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/4",
+      "state": "OPEN",
+      "author": "mnot",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "See https://github.com/mnot/I-D/issues/317",
+      "createdAt": "2024-07-02T03:54:54Z",
+      "updatedAt": "2024-07-02T03:54:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOKMq2fs6OKmxb",
+      "title": "How to serialize multiple \"item\" links?",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/5",
+      "state": "OPEN",
+      "author": "mnot",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "See https://github.com/mnot/I-D/issues/322",
+      "createdAt": "2024-07-02T03:55:32Z",
+      "updatedAt": "2024-07-02T03:55:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOKMq2fs6OKm4r",
+      "title": "Link Hints Registry",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/6",
+      "state": "OPEN",
+      "author": "mnot",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Some thought needs to go into the registry, since registered values are effectively used for ALL link hints in all serialisations that opt into it.",
+      "createdAt": "2024-07-02T03:55:58Z",
+      "updatedAt": "2024-07-02T03:55:58Z",
       "closedAt": null,
       "comments": []
     }
