@@ -3,9 +3,9 @@
 
 
 Network Working Group                                      M. Nottingham
-Internet-Draft                                          25 February 2024
+Internet-Draft                                          26 February 2025
 Intended status: Standards Track                                        
-Expires: 28 August 2024
+Expires: 30 August 2025
 
 
                             HTTP Link Hints
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 August 2024.
+   This Internet-Draft will expire on 30 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -73,13 +73,13 @@ Table of Contents
    3.  Pre-Defined HTTP Link Hints
      3.1.  allow
      3.2.  formats
-     3.3.  links
-     3.4.  accept-post
-     3.5.  accept-patch
-     3.6.  accept-ranges
-     3.7.  accept-prefer
-     3.8.  precondition-req
-     3.9.  auth-schemes
+     3.3.  accept-post
+     3.4.  accept-patch
+     3.5.  accept-ranges
+     3.6.  accept-prefer
+     3.7.  precondition-req
+     3.8.  auth-schemes
+     3.9.  auth-realms
      3.10. status
    4.  Security Considerations
    5.  IANA Considerations
@@ -160,10 +160,9 @@ Table of Contents
          "href": "/orders/523",
           "hints": {
            "allow": ["GET", "POST"],
-           "accept-post": {
-             "application/example+json":
-               {}
-           }
+           "accept-post": [
+             "application/example+json"
+           ]
          }
        }
      }
@@ -208,78 +207,31 @@ Table of Contents
       resource can produce and consume, using the GET and PUT (if
       allowed) methods respectively.
 
-   *  Content Model: object
+   *  Content Model: array (of strings)
 
    *  Specification: [this document]
 
-   Content MUST be an object, whose keys are media types (Section 8.3.1
-   of [HTTP]), and values are objects.
+   Content MUST be an array of strings, containing media types
+   (Section 8.3.1 of [HTTP]).
 
-   The object MAY have a "links" member, whose value is an object
-   representing links (in the sense of [WEB-LINKING]) whose context is
-   any document that uses that format.  Generally, this will be schema
-   or profile ([RFC6906]) information.  The "links" member has the same
-   format as the "links" hint.
-
-   Furthermore, the object MAY have a "deprecated" member, whose value
-   is either true or false, indicating whether support for the format
-   might be removed in the near future.
-
-   All other members of the object are under control of the
-   corresponding media type's definition.
-
-3.3.  links
-
-   *  Hint Name: links
-
-   *  Description: Hints at links whose context is the target resource.
-
-   *  Content Model: object
-
-   *  Specification: [this document]
-
-   The "links" hint contains links (in the sense of [WEB-LINKING]) whose
-   context is the hinted target resource, which are stable for the
-   lifetime of the hint.
-
-   Content MUST be an object, whose member names are link relations
-   ([WEB-LINKING]) and values are objects that MUST have an "href"
-   member whose value is a URI-reference ([URI], using the original link
-   as the base for resolution) for the link hint's target resource, and
-   MAY itself contain link hints, serialised as the value for a "hints"
-   member.
-
-   For example:
-
-   "links": {
-     "edit-form": {
-       "href": "./edit",
-       "hints": {
-         "formats": {
-           "application/json": {}
-         }
-       }
-     }
-   }
-
-3.4.  accept-post
+3.3.  accept-post
 
    *  Hint Name: accept-post
 
    *  Description: Hints the POST request format(s) that the target
       resource can consume.
 
-   *  Content Model: object
+   *  Content Model: array (of strings)
 
    *  Specification: [this document]
 
-   Content MUST be an object, with the same constraints as for
+   Content MUST be an array of strings, with the same constraints as for
    "formats".
 
    When this hint is present, "POST" SHOULD be listed in the "allow"
    hint.
 
-3.5.  accept-patch
+3.4.  accept-patch
 
    *  Hint Name: accept-patch
 
@@ -297,7 +249,7 @@ Table of Contents
    When this hint is present, "PATCH" SHOULD be listed in the "allow"
    hint.
 
-3.6.  accept-ranges
+3.5.  accept-ranges
 
    *  Hint Name: accept-ranges
 
@@ -312,7 +264,7 @@ Table of Contents
    Content MUST be an array of strings, containing HTTP ranges-
    specifiers (Section 14.1.1 of [HTTP]).
 
-3.7.  accept-prefer
+3.6.  accept-prefer
 
    *  Hint Name: accept-prefer
 
@@ -327,7 +279,7 @@ Table of Contents
    of [RFC7240]).  Note that, by its nature, a preference can be ignored
    by the server.
 
-3.8.  precondition-req
+3.7.  precondition-req
 
    *  Hint Name: precondition-req
 
@@ -345,7 +297,7 @@ Table of Contents
 
    See also the 428 Precondition Required status code ([RFC6585]).
 
-3.9.  auth-schemes
+3.8.  auth-schemes
 
    *  Hint Name: auth-schemes
 
@@ -353,24 +305,43 @@ Table of Contents
       authentication using the HTTP Authentication framework Section 11
       of [HTTP].
 
-   *  Content Model: array (of objects)
+   *  Content Model: array (of strings)
 
    *  Specification: [this document]
 
-   Content MUST be an array of objects, each with a "scheme" member
-   containing a string that corresponds to a HTTP authentication scheme
-   (Section 11.1 of [HTTP]), and optionally a "realms" member containing
-   an array of zero to many strings that identify protection spaces that
-   the resource is a member of.
+   Content MUST be an array of strings, each corresponding to a HTTP
+   authentication scheme (Section 11.1 of [HTTP]), and optionally a
+   "realms" member containing an array of zero to many strings that
+   identify protection spaces that the resource is a member of.
 
    For example:
 
      {
-       "auth-req": [
-         {
-           "scheme": "Basic",
-           "realms": ["private"]
-         }
+       "auth-schemes": [
+         "Basic", "Digest"
+       ]
+     }
+
+3.9.  auth-realms
+
+   *  Hint Name: auth-realms
+
+   *  Description: Hints the authentication realm(s) available for those
+      schemes that support them in the HTTP Authentication framework
+      Section 11 of [HTTP].
+
+   *  Content Model: array (of strings)
+
+   *  Specification: [this document]
+
+   Content MUST be an array of strings, each indicating a protection
+   space that the resource is a member of.
+
+   For example:
+
+     {
+       "auth-realms": [
+         "private"
        ]
      }
 
@@ -489,10 +460,6 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc8288>.
 
 6.2.  Informative References
-
-   [RFC6906]  Wilde, E., "The 'profile' Link Relation Type", RFC 6906,
-              DOI 10.17487/RFC6906, March 2013,
-              <https://www.rfc-editor.org/rfc/rfc6906>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,

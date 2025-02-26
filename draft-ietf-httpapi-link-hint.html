@@ -9,23 +9,22 @@
 <meta content='
        This memo specifies "HTTP Link Hints", a mechanism for annotating Web links to HTTP(S) resources with information that otherwise might be discovered by interacting with them. 
     ' name="description">
-<meta content="xml2rfc 3.19.4" name="generator">
+<meta content="xml2rfc 3.27.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-httpapi-link-hint-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.4
-    Python 3.11.6
+  xml2rfc 3.27.0
+    Python 3.12.9
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.3
-    platformdirs 4.2.0
-    pycountry 22.3.5
-    PyYAML 6.0.1
-    requests 2.31.0
-    setuptools 68.2.2
-    six 1.16.0
+    Jinja2 3.1.5
+    lxml 5.3.0
+    platformdirs 4.3.6
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.3
+    setuptools 70.3.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-httpapi-link-hint.xml" rel="alternate" type="application/rfc+xml">
@@ -162,31 +161,6 @@
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -203,6 +177,77 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -215,6 +260,7 @@
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -232,9 +278,15 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -263,6 +315,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -340,25 +393,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -366,38 +420,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
-dl.olPercent {
-  --indent: 5ch;
-}
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
-}
-dl.dlNewline > dt {
-  float: none;
 }
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -461,6 +516,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -478,7 +534,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -515,6 +575,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -529,6 +590,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -559,9 +630,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -601,26 +674,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -631,9 +706,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -641,47 +713,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -689,21 +762,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -725,6 +810,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -735,7 +821,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -746,9 +856,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -761,17 +868,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -782,14 +889,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -797,11 +903,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -830,20 +936,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -886,9 +984,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -911,82 +1006,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1025,11 +1044,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">HTTP Link Hints</td>
-<td class="right">February 2024</td>
+<td class="right">February 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Nottingham</td>
-<td class="center">Expires 28 August 2024</td>
+<td class="center">Expires 30 August 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1061,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-httpapi-link-hint-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-02-25" class="published">25 February 2024</time>
+<time datetime="2025-02-26" class="published">26 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-28">28 August 2024</time></dd>
+<dd class="expires"><time datetime="2025-08-30">30 August 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1096,7 +1115,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1105,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1146,25 +1165,25 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-formats" class="internal xref">formats</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-links" class="internal xref">links</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-accept-post" class="internal xref">accept-post</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-accept-post" class="internal xref">accept-post</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-accept-patch" class="internal xref">accept-patch</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-accept-patch" class="internal xref">accept-patch</a></p>
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-accept-ranges" class="internal xref">accept-ranges</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.6">
-                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-accept-ranges" class="internal xref">accept-ranges</a></p>
+                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-accept-prefer" class="internal xref">accept-prefer</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7">
-                <p id="section-toc.1-1.3.2.7.1"><a href="#section-3.7" class="auto internal xref">3.7</a>.  <a href="#name-accept-prefer" class="internal xref">accept-prefer</a></p>
+                <p id="section-toc.1-1.3.2.7.1"><a href="#section-3.7" class="auto internal xref">3.7</a>.  <a href="#name-precondition-req" class="internal xref">precondition-req</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.8">
-                <p id="section-toc.1-1.3.2.8.1"><a href="#section-3.8" class="auto internal xref">3.8</a>.  <a href="#name-precondition-req" class="internal xref">precondition-req</a></p>
+                <p id="section-toc.1-1.3.2.8.1"><a href="#section-3.8" class="auto internal xref">3.8</a>.  <a href="#name-auth-schemes" class="internal xref">auth-schemes</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.9">
-                <p id="section-toc.1-1.3.2.9.1"><a href="#section-3.9" class="auto internal xref">3.9</a>.  <a href="#name-auth-schemes" class="internal xref">auth-schemes</a></p>
+                <p id="section-toc.1-1.3.2.9.1"><a href="#section-3.9" class="auto internal xref">3.9</a>.  <a href="#name-auth-realms" class="internal xref">auth-realms</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.10">
                 <p id="section-toc.1-1.3.2.10.1"><a href="#section-3.10" class="auto internal xref">3.10</a>. <a href="#name-status" class="internal xref">status</a></p>
@@ -1245,10 +1264,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
       "href": "/orders/523",
        "hints": {
         "allow": ["GET", "POST"],
-        "accept-post": {
-          "application/example+json":
-            {}
-        }
+        "accept-post": [
+          "application/example+json"
+        ]
       }
     }
   }
@@ -1300,90 +1318,72 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.2-1.2.1">Description: Hints the representation type(s) that the target resource can produce and consume, using the GET and PUT (if allowed) methods respectively.<a href="#section-3.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-1.3">
-            <p id="section-3.2-1.3.1">Content Model: object<a href="#section-3.2-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-1.3.1">Content Model: array (of strings)<a href="#section-3.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-1.4">
             <p id="section-3.2-1.4.1">Specification: [this document]<a href="#section-3.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-2">Content MUST be an object, whose keys are media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), and values are objects.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.2-3">The object MAY have a "links" member, whose value is an object representing links (in the sense of <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>) whose context is any document that uses that format. Generally, this will be schema or profile (<span>[<a href="#RFC6906" class="cite xref">RFC6906</a>]</span>) information. The "links" member has the same format as the "links" hint.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">Furthermore, the object MAY have a "deprecated" member, whose value is either true or false, indicating whether support for the format might be removed in the near future.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
-<p id="section-3.2-5">All other members of the object are under control of the corresponding media type's definition.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Content MUST be an array of strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="links">
+<div id="accept-post">
 <section id="section-3.3">
-        <h3 id="name-links">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-links" class="section-name selfRef">links</a>
+        <h3 id="name-accept-post">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-accept-post" class="section-name selfRef">accept-post</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.3-1.1">
-            <p id="section-3.3-1.1.1">Hint Name: links<a href="#section-3.3-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-1.1.1">Hint Name: accept-post<a href="#section-3.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-1.2">
-            <p id="section-3.3-1.2.1">Description: Hints at links whose context is the target resource.<a href="#section-3.3-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-1.2.1">Description: Hints the POST request format(s) that the target resource can consume.<a href="#section-3.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-1.3">
-            <p id="section-3.3-1.3.1">Content Model: object<a href="#section-3.3-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-1.3.1">Content Model: array (of strings)<a href="#section-3.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-1.4">
             <p id="section-3.3-1.4.1">Specification: [this document]<a href="#section-3.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.3-2">The "links" hint contains links (in the sense of <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>) whose context is the hinted target resource, which are stable for the lifetime of the hint.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">Content MUST be an object, whose member names are link relations (<span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>) and values are objects that MUST have an "href" member whose value is a URI-reference (<span>[<a href="#URI" class="cite xref">URI</a>]</span>, using the original link as the base for resolution) for the link hint's target resource, and MAY itself contain link hints, serialised as the value for a "hints" member.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
-<p id="section-3.3-4">For example:<a href="#section-3.3-4" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-3.3-5">
-<pre>
-"links": {
-  "edit-form": {
-    "href": "./edit",
-    "hints": {
-      "formats": {
-        "application/json": {}
-      }
-    }
-  }
-}
-</pre><a href="#section-3.3-5" class="pilcrow">¶</a>
-</div>
+<p id="section-3.3-2">Content MUST be an array of strings, with the same constraints as for "formats".<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">When this hint is present, "POST" SHOULD be listed in the "allow" hint.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="accept-post">
+<div id="accept-patch">
 <section id="section-3.4">
-        <h3 id="name-accept-post">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-accept-post" class="section-name selfRef">accept-post</a>
+        <h3 id="name-accept-patch">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-accept-patch" class="section-name selfRef">accept-patch</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.4-1.1">
-            <p id="section-3.4-1.1.1">Hint Name: accept-post<a href="#section-3.4-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-1.1.1">Hint Name: accept-patch<a href="#section-3.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.4-1.2">
-            <p id="section-3.4-1.2.1">Description: Hints the POST request format(s) that the target resource can consume.<a href="#section-3.4-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-1.2.1">Description: Hints the PATCH <span>[<a href="#RFC5789" class="cite xref">RFC5789</a>]</span> request format(s) that the target resource can consume; equivalent to the Accept-Patch HTTP response header.<a href="#section-3.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.4-1.3">
-            <p id="section-3.4-1.3.1">Content Model: object<a href="#section-3.4-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-1.3.1">Content Model: array (of strings)<a href="#section-3.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.4-1.4">
             <p id="section-3.4-1.4.1">Specification: [this document]<a href="#section-3.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.4-2">Content MUST be an object, with the same constraints as for "formats".<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">When this hint is present, "POST" SHOULD be listed in the "allow" hint.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Content MUST be an array of strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identify the acceptable patch formats.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">When this hint is present, "PATCH" SHOULD be listed in the "allow" hint.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="accept-patch">
+<div id="accept-ranges">
 <section id="section-3.5">
-        <h3 id="name-accept-patch">
-<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-accept-patch" class="section-name selfRef">accept-patch</a>
+        <h3 id="name-accept-ranges">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-accept-ranges" class="section-name selfRef">accept-ranges</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.5-1.1">
-            <p id="section-3.5-1.1.1">Hint Name: accept-patch<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-1.1.1">Hint Name: accept-ranges<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.2">
-            <p id="section-3.5-1.2.1">Description: Hints the PATCH <span>[<a href="#RFC5789" class="cite xref">RFC5789</a>]</span> request format(s) that the target resource can consume; equivalent to the Accept-Patch HTTP response header.<a href="#section-3.5-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-1.2.1">Description: Hints the range-specifier(s) available for the target resource; equivalent to the Accept-Ranges HTTP response header <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.3">
             <p id="section-3.5-1.3.1">Content Model: array (of strings)<a href="#section-3.5-1.3.1" class="pilcrow">¶</a></p>
@@ -1392,21 +1392,20 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.5-1.4.1">Specification: [this document]<a href="#section-3.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.5-2">Content MUST be an array of strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identify the acceptable patch formats.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
-<p id="section-3.5-3">When this hint is present, "PATCH" SHOULD be listed in the "allow" hint.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
+<p id="section-3.5-2">Content MUST be an array of strings, containing HTTP ranges-specifiers (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-14.1.1" class="relref">Section 14.1.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="accept-ranges">
+<div id="accept-prefer">
 <section id="section-3.6">
-        <h3 id="name-accept-ranges">
-<a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-accept-ranges" class="section-name selfRef">accept-ranges</a>
+        <h3 id="name-accept-prefer">
+<a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-accept-prefer" class="section-name selfRef">accept-prefer</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.6-1.1">
-            <p id="section-3.6-1.1.1">Hint Name: accept-ranges<a href="#section-3.6-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-1.1.1">Hint Name: accept-prefer<a href="#section-3.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-1.2">
-            <p id="section-3.6-1.2.1">Description: Hints the range-specifier(s) available for the target resource; equivalent to the Accept-Ranges HTTP response header <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.6-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-1.2.1">Description: Hints the preference(s) <span>[<a href="#RFC7240" class="cite xref">RFC7240</a>]</span> that the target resource understands (and might act upon) in requests.<a href="#section-3.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-1.3">
             <p id="section-3.6-1.3.1">Content Model: array (of strings)<a href="#section-3.6-1.3.1" class="pilcrow">¶</a></p>
@@ -1415,20 +1414,20 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.6-1.4.1">Specification: [this document]<a href="#section-3.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.6-2">Content MUST be an array of strings, containing HTTP ranges-specifiers (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-14.1.1" class="relref">Section 14.1.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.6-2">Content MUST be an array of strings, contain preferences (<span><a href="https://rfc-editor.org/rfc/rfc7240#section-2" class="relref">Section 2</a> of [<a href="#RFC7240" class="cite xref">RFC7240</a>]</span>). Note that, by its nature, a preference can be ignored by the server.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="accept-prefer">
+<div id="precondition-req">
 <section id="section-3.7">
-        <h3 id="name-accept-prefer">
-<a href="#section-3.7" class="section-number selfRef">3.7. </a><a href="#name-accept-prefer" class="section-name selfRef">accept-prefer</a>
+        <h3 id="name-precondition-req">
+<a href="#section-3.7" class="section-number selfRef">3.7. </a><a href="#name-precondition-req" class="section-name selfRef">precondition-req</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.7-1.1">
-            <p id="section-3.7-1.1.1">Hint Name: accept-prefer<a href="#section-3.7-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.7-1.1.1">Hint Name: precondition-req<a href="#section-3.7-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.7-1.2">
-            <p id="section-3.7-1.2.1">Description: Hints the preference(s) <span>[<a href="#RFC7240" class="cite xref">RFC7240</a>]</span> that the target resource understands (and might act upon) in requests.<a href="#section-3.7-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.7-1.2.1">Description: Hints that the target resource requires state-changing requests (e.g., PUT, PATCH) to include a precondition, as per <span><a href="https://rfc-editor.org/rfc/rfc9110#section-13.1" class="relref">Section 13.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>, to avoid conflicts due to concurrent updates.<a href="#section-3.7-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.7-1.3">
             <p id="section-3.7-1.3.1">Content Model: array (of strings)<a href="#section-3.7-1.3.1" class="pilcrow">¶</a></p>
@@ -1437,20 +1436,21 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.7-1.4.1">Specification: [this document]<a href="#section-3.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.7-2">Content MUST be an array of strings, contain preferences (<span><a href="https://rfc-editor.org/rfc/rfc7240#section-2" class="relref">Section 2</a> of [<a href="#RFC7240" class="cite xref">RFC7240</a>]</span>). Note that, by its nature, a preference can be ignored by the server.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
+<p id="section-3.7-2">Content MUST be an array of strings, with possible values "etag" and "last-modified" indicating type of precondition expected.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
+<p id="section-3.7-3">See also the 428 Precondition Required status code (<span>[<a href="#RFC6585" class="cite xref">RFC6585</a>]</span>).<a href="#section-3.7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="precondition-req">
+<div id="auth-schemes">
 <section id="section-3.8">
-        <h3 id="name-precondition-req">
-<a href="#section-3.8" class="section-number selfRef">3.8. </a><a href="#name-precondition-req" class="section-name selfRef">precondition-req</a>
+        <h3 id="name-auth-schemes">
+<a href="#section-3.8" class="section-number selfRef">3.8. </a><a href="#name-auth-schemes" class="section-name selfRef">auth-schemes</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.8-1.1">
-            <p id="section-3.8-1.1.1">Hint Name: precondition-req<a href="#section-3.8-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.8-1.1.1">Hint Name: auth-schemes<a href="#section-3.8-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.8-1.2">
-            <p id="section-3.8-1.2.1">Description: Hints that the target resource requires state-changing requests (e.g., PUT, PATCH) to include a precondition, as per <span><a href="https://rfc-editor.org/rfc/rfc9110#section-13.1" class="relref">Section 13.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>, to avoid conflicts due to concurrent updates.<a href="#section-3.8-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.8-1.2.1">Description: Hints that the target resource requires authentication using the HTTP Authentication framework <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11" class="relref">Section 11</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.8-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.8-1.3">
             <p id="section-3.8-1.3.1">Content Model: array (of strings)<a href="#section-3.8-1.3.1" class="pilcrow">¶</a></p>
@@ -1459,39 +1459,45 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.8-1.4.1">Specification: [this document]<a href="#section-3.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.8-2">Content MUST be an array of strings, with possible values "etag" and "last-modified" indicating type of precondition expected.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
-<p id="section-3.8-3">See also the 428 Precondition Required status code (<span>[<a href="#RFC6585" class="cite xref">RFC6585</a>]</span>).<a href="#section-3.8-3" class="pilcrow">¶</a></p>
+<p id="section-3.8-2">Content MUST be an array of strings, each corresponding to a HTTP authentication scheme (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.1" class="relref">Section 11.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
+<p id="section-3.8-3">For example:<a href="#section-3.8-3" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-3.8-4">
+<pre>
+  {
+    "auth-schemes": [
+      "Basic", "Digest"
+    ]
+  }
+</pre><a href="#section-3.8-4" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
-<div id="auth-schemes">
+<div id="auth-realms">
 <section id="section-3.9">
-        <h3 id="name-auth-schemes">
-<a href="#section-3.9" class="section-number selfRef">3.9. </a><a href="#name-auth-schemes" class="section-name selfRef">auth-schemes</a>
+        <h3 id="name-auth-realms">
+<a href="#section-3.9" class="section-number selfRef">3.9. </a><a href="#name-auth-realms" class="section-name selfRef">auth-realms</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.9-1.1">
-            <p id="section-3.9-1.1.1">Hint Name: auth-schemes<a href="#section-3.9-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.9-1.1.1">Hint Name: auth-realms<a href="#section-3.9-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.9-1.2">
-            <p id="section-3.9-1.2.1">Description: Hints that the target resource requires authentication using the HTTP Authentication framework <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11" class="relref">Section 11</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.9-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.9-1.2.1">Description: Hints the authentication realm(s) available for those schemes that support them in the HTTP Authentication framework <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11" class="relref">Section 11</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.9-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.9-1.3">
-            <p id="section-3.9-1.3.1">Content Model: array (of objects)<a href="#section-3.9-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.9-1.3.1">Content Model: array (of strings)<a href="#section-3.9-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.9-1.4">
             <p id="section-3.9-1.4.1">Specification: [this document]<a href="#section-3.9-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.9-2">Content MUST be an array of objects, each with a "scheme" member containing a string that corresponds to a HTTP authentication scheme (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.1" class="relref">Section 11.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.<a href="#section-3.9-2" class="pilcrow">¶</a></p>
+<p id="section-3.9-2">Content MUST be an array of strings, each indicating a protection space that the resource is a member of.<a href="#section-3.9-2" class="pilcrow">¶</a></p>
 <p id="section-3.9-3">For example:<a href="#section-3.9-3" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-3.9-4">
 <pre>
   {
-    "auth-req": [
-      {
-        "scheme": "Basic",
-        "realms": ["private"]
-      }
+    "auth-realms": [
+      "private"
     ]
   }
 </pre><a href="#section-3.9-4" class="pilcrow">¶</a>
@@ -1573,6 +1579,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 </section>
 </div>
+<div id="sec-combined-references">
 <section id="section-6">
       <h2 id="name-references">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
@@ -1632,10 +1639,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="RFC6906">[RFC6906]</dt>
-        <dd>
-<span class="refAuthor">Wilde, E.</span>, <span class="refTitle">"The 'profile' Link Relation Type"</span>, <span class="seriesInfo">RFC 6906</span>, <span class="seriesInfo">DOI 10.17487/RFC6906</span>, <time datetime="2013-03" class="refDate">March 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6906">https://www.rfc-editor.org/rfc/rfc6906</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8126">[RFC8126]</dt>
       <dd>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
@@ -1644,6 +1647,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </section>
 </div>
 </section>
+</div>
 <div id="link_header">
 <section id="appendix-A">
       <h2 id="name-representing-link-hints-in-">
