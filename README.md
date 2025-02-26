@@ -1,6 +1,6 @@
 # HTTP Link Hints
 
-This is the working area for the IETF [HTTPAPI Working Group](https://datatracker.ietf.org/wg/httpapi/documents/) Internet-Draft, "HTTP Link Hints".
+This is the working area for the IETF [HTTPAPI Working Group](https://datatracker.ietf.org/group/httpapi/documents/) Internet-Draft, "HTTP Link Hints".
 
 * [Editor's Copy](https://ietf-wg-httpapi.github.io/link-hint/#go.draft-ietf-httpapi-link-hint.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-httpapi-link-hint)
