@@ -83,10 +83,9 @@ In JSON-based formats, this can be achieved by simply serialising link hints as 
       "href": "/orders/523",
        "hints": {
         "allow": ["GET", "POST"],
-        "accept-post": {
-          "application/example+json":
-            {}
-        }
+        "accept-post": [
+          "application/example+json"
+        ]
       }
     }
   }
@@ -116,52 +115,19 @@ Content MUST be an array of strings, containing HTTP methods ({{Section 9 of HTT
 
 * Hint Name: formats
 * Description: Hints the representation type(s) that the target resource can produce and consume, using the GET and PUT (if allowed) methods respectively.
-* Content Model: object
+* Content Model: array (of strings)
 * Specification: \[this document]
 
-Content MUST be an object, whose keys are media types ({{Section 8.3.1 of HTTP}}), and values are objects.
-
-The object MAY have a "links" member, whose value is an object representing links (in the sense of {{WEB-LINKING}}) whose context is any document that uses that format. Generally, this will be schema or profile ({{?RFC6906}}) information. The "links" member has the same format as the "links" hint.
-
-Furthermore, the object MAY have a "deprecated" member, whose value is either true or false, indicating whether support for the format might be removed in the near future.
-
-All other members of the object are under control of the corresponding media type's definition.
-
-
-## links
-
-* Hint Name: links
-* Description: Hints at links whose context is the target resource.
-* Content Model: object
-* Specification: \[this document]
-
-The "links" hint contains links (in the sense of {{WEB-LINKING}}) whose context is the hinted target resource, which are stable for the lifetime of the hint.
-
-Content MUST be an object, whose member names are link relations ({{WEB-LINKING}}) and values are objects that MUST have an "href" member whose value is a URI-reference ({{URI}}, using the original link as the base for resolution) for the link hint's target resource, and MAY itself contain link hints, serialised as the value for a "hints" member.
-
-For example:
-
-~~~ json
-"links": {
-  "edit-form": {
-    "href": "./edit",
-    "hints": {
-      "formats": {
-        "application/json": {}
-      }
-    }
-  }
-}
-~~~
+Content MUST be an array of strings, containing media types ({{Section 8.3.1 of HTTP}}).
 
 ## accept-post
 
 * Hint Name: accept-post
 * Description: Hints the POST request format(s) that the target resource can consume.
-* Content Model: object
+* Content Model: array (of strings)
 * Specification: \[this document]
 
-Content MUST be an object, with the same constraints as for "formats".
+Content MUST be an array of strings, with the same constraints as for "formats".
 
 When this hint is present, "POST" SHOULD be listed in the "allow" hint.
 
@@ -209,20 +175,36 @@ See also the 428 Precondition Required status code ({{!RFC6585}}).
 
 * Hint Name: auth-schemes
 * Description: Hints that the target resource requires authentication using the HTTP Authentication framework {{Section 11 of HTTP}}.
-* Content Model: array (of objects)
+* Content Model: array (of strings)
 * Specification: \[this document]
 
-Content MUST be an array of objects, each with a "scheme" member containing a string that corresponds to a HTTP authentication scheme ({{Section 11.1 of HTTP}}), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.
+Content MUST be an array of strings, each corresponding to a HTTP authentication scheme ({{Section 11.1 of HTTP}}), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.
 
 For example:
 
 ~~~ json
   {
-    "auth-req": [
-      {
-        "scheme": "Basic",
-        "realms": ["private"]
-      }
+    "auth-schemes": [
+      "Basic", "Digest"
+    ]
+  }
+~~~
+
+## auth-realms
+
+* Hint Name: auth-realms
+* Description: Hints the authentication realm(s) available for those schemes that support them in the HTTP Authentication framework {{Section 11 of HTTP}}.
+* Content Model: array (of strings)
+* Specification: \[this document]
+
+Content MUST be an array of strings, each indicating a protection space that the resource is a member of.
+
+For example:
+
+~~~ json
+  {
+    "auth-realms": [
+      "private"
     ]
   }
 ~~~
