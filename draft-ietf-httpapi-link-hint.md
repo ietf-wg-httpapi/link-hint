@@ -51,13 +51,13 @@ Often, it can be beneficial to know this information before interacting with the
 
 For example, a user interface that presents the data from an HTTP-based API might need to know which resources the user has write access to, so that it can present the appropriate interface.
 
-This specification defines a vocabulary of "HTTP link hints" that allow such metadata about HTTP resources to be attached to Web links {{WEB-LINKING}}, thereby making it available before the link is followed. It also establishes a registry for future hints.
+This specification defines a vocabulary of HTTP link hints that allow such metadata about HTTP resources to be attached to Web links {{WEB-LINKING}}, thereby making it available before the link is followed. It also establishes a registry for future hints.
 
-Hints are just that -- they are not a "contract", and are to only be taken as advisory. The runtime behaviour of the resource always overrides hinted information.
+Hints are just that -- they are not a contract, and are to only be taken as advisory. The runtime behaviour of the resource always overrides hinted information.
 
 For example, a client might receive a hint that the PUT method is allowed on all "widget" resources. This means that generally, the client can send a PUT to them, but a specific resource might reject a PUT based upon access control or other considerations.
 
-More fine-grained information might also be gathered by interacting with the resource (e.g., via a GET), or by another resource "containing" it (such as a "widgets" collection) or describing it (e.g., one linked to it with a "describedby" link relation).
+More fine-grained information might also be gathered by interacting with the resource (e.g., via a GET), or by another resource containing it (such as a widgets collection) or describing it (e.g., one linked to it with a "describedby" link relation).
 
 There is not a single way to carry hints in a link; rather, it is expected that this will be done by individual link serialisations (see {{Section 3.4.1 of WEB-LINKING}}). However, {{link_header}} does recommend how to include link hints in the existing Link header field.
 
