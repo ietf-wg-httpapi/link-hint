@@ -9,18 +9,18 @@
 <meta content='
        This memo specifies "HTTP Link Hints", a mechanism for annotating Web links to HTTP(S) resources with information that otherwise might be discovered by interacting with them. 
     ' name="description">
-<meta content="xml2rfc 3.27.0" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-httpapi-link-hint-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.27.0
-    Python 3.12.9
+  xml2rfc 3.28.1
+    Python 3.12.10
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
+    Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.6
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1044,11 +1044,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">HTTP Link Hints</td>
-<td class="right">February 2025</td>
+<td class="right">May 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Nottingham</td>
-<td class="center">Expires 30 August 2025</td>
+<td class="center">Expires 19 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1061,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-httpapi-link-hint-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-26" class="published">26 February 2025</time>
+<time datetime="2025-05-18" class="published">18 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-30">30 August 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-19">19 November 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1115,7 +1115,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1213,13 +1213,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-representing-link-hints-in-" class="internal xref">Representing Link Hints in Link Headers</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1230,14 +1227,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">HTTP <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span> clients can discover a variety of information about a resource by interacting with it. For example, the methods supported can be learned through the Allow response header field, and the need for authentication is conveyed with a 401 (Authentication Required) status code.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Often, it can be beneficial to know this information before interacting with the resource; not only can such knowledge save time (through reduced round trips), but it can also influence the choices made by the code or user driving the interaction.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">For example, a user interface that presents the data from an HTTP-based API might need to know which resources the user has write access to, so that it can present the appropriate interface.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This specification defines a vocabulary of "HTTP link hints" that allow such metadata about HTTP resources to be attached to Web links <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>, thereby making it available before the link is followed. It also establishes a registry for future hints.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">Hints are just that -- they are not a "contract", and are to only be taken as advisory. The runtime behaviour of the resource always overrides hinted information.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">For example, a client might receive a hint that the PUT method is allowed on all "widget" resources. This means that generally, the client can send a PUT to them, but a specific resource might reject a PUT based upon access control or other considerations.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<p id="section-1-7">More fine-grained information might also be gathered by interacting with the resource (e.g., via a GET), or by another resource "containing" it (such as a "widgets" collection) or describing it (e.g., one linked to it with a "describedby" link relation).<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">There is not a single way to carry hints in a link; rather, it is expected that this will be done by individual link serialisations (see <span><a href="https://rfc-editor.org/rfc/rfc8288#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>). However, <a href="#link_header" class="auto internal xref">Appendix A</a> does recommend how to include link hints in the existing Link header field.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-1">HTTP <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span> clients can discover a variety of information about a resource by interacting with it. For example, the methods supported by a resource can be learned by examining the Allow header field in responses from it, and the need for authentication is conveyed with a 401 (Authentication Required) status code.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Often, it can be beneficial to know this information before interacting with the resource; not only can such knowledge save time (through reduced round trips), but it can also influence the choices made by the code or user driving the interaction. For example, a user interface that presents the data from an HTTP-based API might need to know which resources the user has write access to, so that it can present the appropriate interface.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This specification defines a vocabulary of HTTP link hints that allow such metadata about HTTP resources to be attached to Web links <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>, thereby making it available before the link is followed. It also establishes a registry for future hints.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">Hints are just that -- they are not a contract, and are to only be taken as advisory. The runtime behaviour of the resource always overrides hinted information. For example, a client might receive a hint that the PUT method is allowed on all "widget" resources. This means that generally, the client can send a PUT to them, but a specific resource might reject a PUT based upon access control or other considerations.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">More fine-grained information might also be gathered by interacting with the resource (e.g., via a GET), or by another resource containing it (such as a widgets collection) or describing it (e.g., one linked to it with a "describedby" link relation).<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">There is not a single way to convey hints with a link; rather, it is expected that this will be done by individual link serialisations (see <span><a href="https://rfc-editor.org/rfc/rfc8288#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="notational-conventions">
 <section id="section-1.1">
         <h3 id="name-notational-conventions">
@@ -1253,29 +1248,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-http-link-hints">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-http-link-hints" class="section-name selfRef">HTTP Link Hints</a>
       </h2>
-<p id="section-2-1">A HTTP link hint is a (key, value) tuple that describes the target resource of a Web link <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>, or the link itself. The value's canonical form is a JSON <span>[<a href="#JSON" class="cite xref">JSON</a>]</span> data structure specific to that hint.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">Typically, link hints are serialised in links as target attributes (<span><a href="https://rfc-editor.org/rfc/rfc8288#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>).<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">In JSON-based formats, this can be achieved by simply serialising link hints as an object; for example:<a href="#section-2-3" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-2-4">
-<pre>
-{
-  "_links": {
-    "self": {
-      "href": "/orders/523",
-       "hints": {
-        "allow": ["GET", "POST"],
-        "accept-post": [
-          "application/example+json"
-        ]
-      }
-    }
-  }
-}
-</pre><a href="#section-2-4" class="pilcrow">¶</a>
-</div>
-<p id="section-2-5">In other link formats, this requires a mapping from the canonical JSON data model into the constraints of that format. One such mapping is described in <a href="#link_header" class="auto internal xref">Appendix A</a> for the Link HTTP header field.<a href="#section-2-5" class="pilcrow">¶</a></p>
-<p id="section-2-6">The information in a link hint SHOULD NOT be considered valid for longer than the freshness lifetime (<span><a href="https://rfc-editor.org/rfc/rfc9111#section-4.2" class="relref">Section 4.2</a> of [<a href="#HTTP-CACHING" class="cite xref">HTTP-CACHING</a>]</span>) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<p id="section-2-7">Likewise, the information in a link hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-1">A HTTP link hint is a (key, value) tuple that describes the target resource of a Web link <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>, or describes the link itself. The value's canonical form is expressed in subset of the data types defined by HTTP Structured Fields <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">Typically, link hints are serialised in links as target attributes (<span><a href="https://rfc-editor.org/rfc/rfc8288#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the canonical data model into the constraints of that format.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">The information in a link hint SHOULD NOT be considered valid for longer than the freshness lifetime (<span><a href="https://rfc-editor.org/rfc/rfc9111#section-4.2" class="relref">Section 4.2</a> of [<a href="#HTTP-CACHING" class="cite xref">HTTP-CACHING</a>]</span>) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">Likewise, the information in a link hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.<a href="#section-2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="hints">
@@ -1296,13 +1272,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.1-1.2.1">Description: Hints the HTTP methods that can be used to interact with the target resource; equivalent to the Allow HTTP response header.<a href="#section-3.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-1.3">
-            <p id="section-3.1-1.3.1">Content Model: array (of strings)<a href="#section-3.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-1.3.1">Content Model: Inner List of Strings<a href="#section-3.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-1.4">
             <p id="section-3.1-1.4.1">Specification: [this document]<a href="#section-3.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.1-2">Content MUST be an array of strings, containing HTTP methods (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-9" class="relref">Section 9</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Content MUST be a Inner List of Strings, containing HTTP methods (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-9" class="relref">Section 9</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="formats">
@@ -1318,13 +1294,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.2-1.2.1">Description: Hints the representation type(s) that the target resource can produce and consume, using the GET and PUT (if allowed) methods respectively.<a href="#section-3.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-1.3">
-            <p id="section-3.2-1.3.1">Content Model: array (of strings)<a href="#section-3.2-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-1.3.1">Content Model: Inner List of Strings<a href="#section-3.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-1.4">
             <p id="section-3.2-1.4.1">Specification: [this document]<a href="#section-3.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-2">Content MUST be an array of strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Content MUST be a Inner List of Strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-post">
@@ -1340,14 +1316,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.3-1.2.1">Description: Hints the POST request format(s) that the target resource can consume.<a href="#section-3.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-1.3">
-            <p id="section-3.3-1.3.1">Content Model: array (of strings)<a href="#section-3.3-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-1.3.1">Content Model: Inner List of Strings<a href="#section-3.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-1.4">
             <p id="section-3.3-1.4.1">Specification: [this document]<a href="#section-3.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.3-2">Content MUST be an array of strings, with the same constraints as for "formats".<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">When this hint is present, "POST" SHOULD be listed in the "allow" hint.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Content MUST be a Inner List of Strings, with the same constraints as for "formats".<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">When this hint is present, "POST" SHOULD be listed in the "allow" hint when present.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-patch">
@@ -1363,14 +1339,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.4-1.2.1">Description: Hints the PATCH <span>[<a href="#RFC5789" class="cite xref">RFC5789</a>]</span> request format(s) that the target resource can consume; equivalent to the Accept-Patch HTTP response header.<a href="#section-3.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.4-1.3">
-            <p id="section-3.4-1.3.1">Content Model: array (of strings)<a href="#section-3.4-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-1.3.1">Content Model: Inner List of Strings<a href="#section-3.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.4-1.4">
             <p id="section-3.4-1.4.1">Specification: [this document]<a href="#section-3.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.4-2">Content MUST be an array of strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identify the acceptable patch formats.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">When this hint is present, "PATCH" SHOULD be listed in the "allow" hint.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Content MUST be a Inner List of Strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identify the acceptable patch formats.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">When this hint is present, "PATCH" SHOULD be listed in the "allow" hint when present.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-ranges">
@@ -1386,13 +1362,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.5-1.2.1">Description: Hints the range-specifier(s) available for the target resource; equivalent to the Accept-Ranges HTTP response header <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.3">
-            <p id="section-3.5-1.3.1">Content Model: array (of strings)<a href="#section-3.5-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-1.3.1">Content Model: Inner List of Strings<a href="#section-3.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.4">
             <p id="section-3.5-1.4.1">Specification: [this document]<a href="#section-3.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.5-2">Content MUST be an array of strings, containing HTTP ranges-specifiers (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-14.1.1" class="relref">Section 14.1.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.5-2" class="pilcrow">¶</a></p>
+<p id="section-3.5-2">Content MUST be a Inner List of Strings, containing HTTP ranges-specifiers (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-14.1.1" class="relref">Section 14.1.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-prefer">
@@ -1408,13 +1384,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.6-1.2.1">Description: Hints the preference(s) <span>[<a href="#RFC7240" class="cite xref">RFC7240</a>]</span> that the target resource understands (and might act upon) in requests.<a href="#section-3.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-1.3">
-            <p id="section-3.6-1.3.1">Content Model: array (of strings)<a href="#section-3.6-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-1.3.1">Content Model: Inner List of Strings<a href="#section-3.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-1.4">
             <p id="section-3.6-1.4.1">Specification: [this document]<a href="#section-3.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.6-2">Content MUST be an array of strings, contain preferences (<span><a href="https://rfc-editor.org/rfc/rfc7240#section-2" class="relref">Section 2</a> of [<a href="#RFC7240" class="cite xref">RFC7240</a>]</span>). Note that, by its nature, a preference can be ignored by the server.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.6-2">Content MUST be a Inner List of Strings, containing preferences (<span><a href="https://rfc-editor.org/rfc/rfc7240#section-2" class="relref">Section 2</a> of [<a href="#RFC7240" class="cite xref">RFC7240</a>]</span>). Note that, by its nature, a preference can be ignored by the server.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="precondition-req">
@@ -1430,13 +1406,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.7-1.2.1">Description: Hints that the target resource requires state-changing requests (e.g., PUT, PATCH) to include a precondition, as per <span><a href="https://rfc-editor.org/rfc/rfc9110#section-13.1" class="relref">Section 13.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>, to avoid conflicts due to concurrent updates.<a href="#section-3.7-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.7-1.3">
-            <p id="section-3.7-1.3.1">Content Model: array (of strings)<a href="#section-3.7-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.7-1.3.1">Content Model: Inner List of Strings<a href="#section-3.7-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.7-1.4">
             <p id="section-3.7-1.4.1">Specification: [this document]<a href="#section-3.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.7-2">Content MUST be an array of strings, with possible values "etag" and "last-modified" indicating type of precondition expected.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
+<p id="section-3.7-2">Content MUST be a Inner List of Strings, with possible values "etag" and "last-modified" indicating type of precondition expected.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
 <p id="section-3.7-3">See also the 428 Precondition Required status code (<span>[<a href="#RFC6585" class="cite xref">RFC6585</a>]</span>).<a href="#section-3.7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1453,23 +1429,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.8-1.2.1">Description: Hints that the target resource requires authentication using the HTTP Authentication framework <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11" class="relref">Section 11</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.8-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.8-1.3">
-            <p id="section-3.8-1.3.1">Content Model: array (of strings)<a href="#section-3.8-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.8-1.3.1">Content Model: Inner List of Strings<a href="#section-3.8-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.8-1.4">
             <p id="section-3.8-1.4.1">Specification: [this document]<a href="#section-3.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.8-2">Content MUST be an array of strings, each corresponding to a HTTP authentication scheme (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.1" class="relref">Section 11.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
-<p id="section-3.8-3">For example:<a href="#section-3.8-3" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-3.8-4">
-<pre>
-  {
-    "auth-schemes": [
-      "Basic", "Digest"
-    ]
-  }
-</pre><a href="#section-3.8-4" class="pilcrow">¶</a>
-</div>
+<p id="section-3.8-2">Content MUST be a Inner List of Strings, each corresponding to a HTTP authentication scheme (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.1" class="relref">Section 11.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="auth-realms">
@@ -1492,16 +1458,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
         </ul>
 <p id="section-3.9-2">Content MUST be an array of strings, each indicating a protection space that the resource is a member of.<a href="#section-3.9-2" class="pilcrow">¶</a></p>
-<p id="section-3.9-3">For example:<a href="#section-3.9-3" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-3.9-4">
-<pre>
-  {
-    "auth-realms": [
-      "private"
-    ]
-  }
-</pre><a href="#section-3.9-4" class="pilcrow">¶</a>
-</div>
 </section>
 </div>
 <div id="status">
@@ -1517,19 +1473,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.10-1.2.1">Description: Hints the status of the target resource.<a href="#section-3.10-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.10-1.3">
-            <p id="section-3.10-1.3.1">Content Model: string<a href="#section-3.10-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.10-1.3.1">Content Model: Token<a href="#section-3.10-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.10-1.4">
             <p id="section-3.10-1.4.1">Specification: [this document]<a href="#section-3.10-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.10-2">Content MUST be a string; possible values are:<a href="#section-3.10-2" class="pilcrow">¶</a></p>
+<p id="section-3.10-2">Content MUST be a Token; possible values are:<a href="#section-3.10-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.10-3.1">
-            <p id="section-3.10-3.1.1">"deprecated" - indicates that use of the resource is not recommended, but it is still available.<a href="#section-3.10-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.10-3.1.1">deprecated - indicates that use of the resource is not recommended, but it is still available.<a href="#section-3.10-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.10-3.2">
-            <p id="section-3.10-3.2.1">"gone" - indicates that the resource is no longer available; i.e., it will return a 410 (Gone) HTTP status code if accessed.<a href="#section-3.10-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.10-3.2.1">gone - indicates that the resource is no longer available; i.e., it will return a 410 (Gone) HTTP status code if accessed.<a href="#section-3.10-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1557,24 +1513,32 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-5.1-1">This specification defines the HTTP Link Hint Registry. See <a href="#link_hints" class="auto internal xref">Section 2</a> for a general description of the function of link hints.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">Link hints are generic; that is, they are potentially applicable to any HTTP resource, not specific to one application of HTTP, nor to one particular format. Generally, they ought to be information that would otherwise be discoverable by interacting with the resource.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <p id="section-5.1-3">Hint names MUST be composed of the lowercase letters (a-z), digits (0-9), underscores ("_") and hyphens ("-"), and MUST begin with a lowercase letter.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">Hint content MUST be described in terms of JSON values (<span><a href="https://rfc-editor.org/rfc/rfc8259#section-3" class="relref">Section 3</a> of [<a href="#JSON" class="cite xref">JSON</a>]</span>).<a href="#section-5.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.1-5">Hint semantics SHOULD be described in terms of the framework defined in <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.1-6">New hints are registered using the Expert Review process described in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span> to enforce the criteria above. Requests for registration of new resource hints are to use the following template:<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">Hint content MUST be described using valid combinations of the following types defined by HTTP Structured Fields (<span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>):<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.1-7.1">
-            <p id="section-5.1-7.1.1">Hint Name: [hint name]<a href="#section-5.1-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.1-5.1">
+            <p id="section-5.1-5.1.1">Inner List (<span><a href="https://rfc-editor.org/rfc/rfc9651#section-3.1.2" class="relref">Section 3.1.2</a> of [<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)<a href="#section-5.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.1-7.2">
-            <p id="section-5.1-7.2.1">Description: [a short description of the hint's semantics]<a href="#section-5.1-7.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.1-7.3">
-            <p id="section-5.1-7.3.1">Content Model: [valid JSON value types; see RFC627 Section 2.1]<a href="#section-5.1-7.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.1-7.4">
-            <p id="section-5.1-7.4.1">Specification: [reference to specification document]<a href="#section-5.1-7.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.1-5.2">
+            <p id="section-5.1-5.2.1">Item (<span><a href="https://rfc-editor.org/rfc/rfc9651#section-3.3" class="relref">Section 3.3</a> of [<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)<a href="#section-5.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.1-8">Initial registrations are enumerated in <a href="#hints" class="auto internal xref">Section 3</a>. The "rel", "rev", "hreflang", "media", "title", and "type" hint names are reserved, so as to avoid potential clashes with link serialisations.<a href="#section-5.1-8" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">Hint semantics SHOULD be described in terms of the framework defined in <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1-7">New hints are registered using the Expert Review process described in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span> to enforce the criteria above. Requests for registration of new resource hints are to use the following template:<a href="#section-5.1-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-8.1">
+            <p id="section-5.1-8.1.1">Hint Name: [hint name]<a href="#section-5.1-8.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-8.2">
+            <p id="section-5.1-8.2.1">Description: [a short description of the hint's semantics]<a href="#section-5.1-8.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-8.3">
+            <p id="section-5.1-8.3.1">Content Model: [allowed Structured Fields types]<a href="#section-5.1-8.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-8.4">
+            <p id="section-5.1-8.4.1">Specification: [reference to specification document]<a href="#section-5.1-8.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.1-9">Initial registrations are enumerated in <a href="#hints" class="auto internal xref">Section 3</a>. The "rel", "rev", "hreflang", "media", "title", and "type" hint names are reserved, so as to avoid potential clashes with link serialisations.<a href="#section-5.1-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1622,6 +1586,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="STRUCTURED-FIELDS">[STRUCTURED-FIELDS]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 9651</span>, <span class="seriesInfo">DOI 10.17487/RFC9651</span>, <time datetime="2024-09" class="refDate">September 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9651">https://www.rfc-editor.org/rfc/rfc9651</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="URI">[URI]</dt>
         <dd>
 <span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
@@ -1648,60 +1616,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 </section>
 </div>
-<div id="link_header">
-<section id="appendix-A">
-      <h2 id="name-representing-link-hints-in-">
-<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-representing-link-hints-in-" class="section-name selfRef">Representing Link Hints in Link Headers</a>
-      </h2>
-<p id="appendix-A-1">A link hint can be represented in a Link header (<span><a href="https://rfc-editor.org/rfc/rfc8288#section-3" class="relref">Section 3</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>) as a link-extension.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<p id="appendix-A-2">When doing so, the JSON of the hint's content SHOULD be normalised to reduce extraneous spaces (%x20), and MUST NOT contain horizontal tabs (%x09), line feeds (%x0A) or carriage returns (%x0D). When they are part of a string value, these characters MUST be escaped as described in <span><a href="https://rfc-editor.org/rfc/rfc8259#section-7" class="relref">Section 7</a> of [<a href="#JSON" class="cite xref">JSON</a>]</span>; otherwise, they MUST be discarded.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
-<p id="appendix-A-3">Furthermore, if the content is an array or an object, the surrounding delimiters MUST be removed before serialisation. In other words, the outermost object or array is represented without the braces ("{}") or brackets ("[]") respectively, but this does not apply to inner objects or arrays.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
-<p id="appendix-A-4">For example, the two JSON values below are those of the fictitious "example" and "example1" hints, respectively:<a href="#appendix-A-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A-5">
-<pre>
-"The Example Value"
-1.2
-</pre><a href="#appendix-A-5" class="pilcrow">¶</a>
-</div>
-<p id="appendix-A-6">In a Link header, they would be serialised as:<a href="#appendix-A-6" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="appendix-A-7">
-<pre>
-Link: &lt;/&gt;; rel="sample"; example="The Example Value";
-      example1=1.2
-</pre><a href="#appendix-A-7" class="pilcrow">¶</a>
-</div>
-<p id="appendix-A-8">A more complex, single value for "example":<a href="#appendix-A-8" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="appendix-A-9">
-<pre>
-[
-  "foo",
-  -1.23,
-  true,
-  ["charlie", "bennet"],
-  {"cat": "thor"},
-  false
-]
-</pre><a href="#appendix-A-9" class="pilcrow">¶</a>
-</div>
-<p id="appendix-A-10">would be serialised as:<a href="#appendix-A-10" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="appendix-A-11">
-<pre>
-Link: &lt;/&gt;; rel="sample"; example="\"foo\", -1.23, true,
-      [\"charlie\", \"bennet\"], {"cat": \"thor\"}, false"
-</pre><a href="#appendix-A-11" class="pilcrow">¶</a>
-</div>
-</section>
-</div>
 <div id="acknowledgements">
-<section id="appendix-B">
+<section id="appendix-A">
       <h2 id="name-acknowledgements">
-<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
       </h2>
-<p id="appendix-B-1">Thanks to Jan Algermissen, Mike Amundsen, Bill Burke, Graham Klyne, Leif Hedstrom, Jeni Tennison, Erik Wilde and Jorge Williams for their suggestions and feedback.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">Thanks to Jan Algermissen, Mike Amundsen, Bill Burke, Graham Klyne, Leif Hedstrom, Jeni Tennison, Erik Wilde and Jorge Williams for their suggestions and feedback.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-C">
+<section id="appendix-B">
       <h2 id="name-authors-address">
 <a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>
