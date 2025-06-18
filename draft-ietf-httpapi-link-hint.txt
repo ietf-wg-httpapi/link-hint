@@ -3,9 +3,9 @@
 
 
 Network Working Group                                      M. Nottingham
-Internet-Draft                                               18 May 2025
+Internet-Draft                                              18 June 2025
 Intended status: Standards Track                                        
-Expires: 19 November 2025
+Expires: 20 December 2025
 
 
                             HTTP Link Hints
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 November 2025.
+   This Internet-Draft will expire on 20 December 2025.
 
 Copyright Notice
 
@@ -287,9 +287,7 @@ Table of Contents
    *  Specification: [this document]
 
    Content MUST be a Inner List of Strings, each corresponding to a HTTP
-   authentication scheme (Section 11.1 of [HTTP]), and optionally a
-   "realms" member containing an array of zero to many strings that
-   identify protection spaces that the resource is a member of.
+   authentication scheme (Section 11.1 of [HTTP]).
 
 3.9.  auth-realms
 
@@ -299,12 +297,12 @@ Table of Contents
       schemes that support them in the HTTP Authentication framework
       Section 11 of [HTTP].
 
-   *  Content Model: array (of strings)
+   *  Content Model: Inner List (of Strings)
 
    *  Specification: [this document]
 
-   Content MUST be an array of strings, each indicating a protection
-   space that the resource is a member of.
+   Content MUST be an Inner List of Strings, each indicating a
+   protection space that the resource is a member of.
 
 3.10.  status
 
