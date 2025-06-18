@@ -154,16 +154,16 @@ See also the 428 Precondition Required status code ({{!RFC6585}}).
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, each corresponding to a HTTP authentication scheme ({{Section 11.1 of HTTP}}), and optionally a "realms" member containing an array of zero to many strings that identify protection spaces that the resource is a member of.
+Content MUST be a Inner List of Strings, each corresponding to a HTTP authentication scheme ({{Section 11.1 of HTTP}}).
 
 ## auth-realms
 
 * Hint Name: auth-realms
 * Description: Hints the authentication realm(s) available for those schemes that support them in the HTTP Authentication framework {{Section 11 of HTTP}}.
-* Content Model: array (of strings)
+* Content Model: Inner List (of Strings)
 * Specification: \[this document]
 
-Content MUST be an array of strings, each indicating a protection space that the resource is a member of.
+Content MUST be an Inner List of Strings, each indicating a protection space that the resource is a member of.
 
 ## status
 
