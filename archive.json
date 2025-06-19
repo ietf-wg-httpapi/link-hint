@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-17T00:47:08.313796+00:00",
+  "timestamp": "2025-06-19T00:47:26.781749+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -12,6 +12,11 @@
       "name": "invalid",
       "description": "This doesn't seem right",
       "color": "e4e669"
+    },
+    {
+      "name": "proposed to close",
+      "description": "",
+      "color": "bd2572"
     }
   ],
   "issues": [
@@ -40,12 +45,22 @@
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "proposed to close"
+      ],
       "body": "See https://github.com/mnot/I-D/issues/316",
       "createdAt": "2024-07-02T03:54:33Z",
-      "updatedAt": "2024-07-02T03:54:33Z",
+      "updatedAt": "2025-06-18T01:18:41Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "This seems speculative; all of the other defined hints are 'paving cowpaths'. Rather than doing it in this spec -- which would require defining what it means in detail, rather than just copying a pattern used elsewhere -- I'd suggest closing this issue and if there's interest, registering the hint in a standalone spec.",
+          "createdAt": "2025-06-18T01:16:52Z",
+          "updatedAt": "2025-06-18T01:16:52Z"
+        }
+      ]
     },
     {
       "number": 4,
@@ -56,12 +71,22 @@
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "proposed to close"
+      ],
       "body": "See https://github.com/mnot/I-D/issues/317",
       "createdAt": "2024-07-02T03:54:54Z",
-      "updatedAt": "2024-07-02T03:54:54Z",
+      "updatedAt": "2025-06-18T01:20:31Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "We're moving to a simpler data model for link hints in #1 so I think this is overcome by events -- you'd put the profile in the media type string.",
+          "createdAt": "2025-06-18T01:20:26Z",
+          "updatedAt": "2025-06-18T01:20:26Z"
+        }
+      ]
     },
     {
       "number": 5,
@@ -72,12 +97,22 @@
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "proposed to close"
+      ],
       "body": "See https://github.com/mnot/I-D/issues/322",
       "createdAt": "2024-07-02T03:55:32Z",
-      "updatedAt": "2024-07-02T03:55:32Z",
+      "updatedAt": "2025-06-18T01:22:41Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "Overcome by events - no longer have a links hint",
+          "createdAt": "2025-06-18T01:22:38Z",
+          "updatedAt": "2025-06-18T01:22:38Z"
+        }
+      ]
     },
     {
       "number": 6,
