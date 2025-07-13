@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-10T00:48:57.347899+00:00",
+  "timestamp": "2025-07-13T00:55:18.632345+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -17,6 +17,11 @@
       "name": "proposed to close",
       "description": "",
       "color": "bd2572"
+    },
+    {
+      "name": "editorial",
+      "description": "",
+      "color": "70ca6d"
     }
   ],
   "issues": [
@@ -29,12 +34,22 @@
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "proposed to close"
+      ],
       "body": "Right now the data model is JSON-based, which allows arbitrary depth and is not terribly good in HTTP fields and other places like HTML attributes.\r\n\r\nWe could subset JSON like Structured Fields does, or we could adopt the SF type system (or a subset of it).",
       "createdAt": "2024-02-20T05:38:05Z",
-      "updatedAt": "2024-02-20T05:38:05Z",
+      "updatedAt": "2025-07-11T10:07:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "This this is done.",
+          "createdAt": "2025-07-11T10:07:03Z",
+          "updatedAt": "2025-07-11T10:07:03Z"
+        }
+      ]
     },
     {
       "number": 3,
@@ -126,7 +141,47 @@
       "labels": [],
       "body": "Some thought needs to go into the registry, since registered values are effectively used for ALL link hints in all serialisations that opt into it.",
       "createdAt": "2024-07-02T03:55:58Z",
-      "updatedAt": "2024-07-02T03:55:58Z",
+      "updatedAt": "2025-07-11T13:13:43Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "I'm starting to wonder if we should raise the bar from Expert to something that requires a standards-track RFC.",
+          "createdAt": "2025-07-11T10:07:56Z",
+          "updatedAt": "2025-07-11T10:07:56Z"
+        },
+        {
+          "author": "richsalz",
+          "authorAssociation": "NONE",
+          "body": "Should someone ask the \"other\" (sic) HTTP working group for their view?",
+          "createdAt": "2025-07-11T13:10:15Z",
+          "updatedAt": "2025-07-11T13:10:15Z"
+        },
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "`s/other/real/`",
+          "createdAt": "2025-07-11T13:13:43Z",
+          "updatedAt": "2025-07-11T13:13:43Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOKMq2fs7AER1A",
+      "title": "Make it clear how to opt into link hints",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/7",
+      "state": "OPEN",
+      "author": "mnot",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "",
+      "createdAt": "2025-07-11T10:08:58Z",
+      "updatedAt": "2025-07-11T13:14:54Z",
       "closedAt": null,
       "comments": []
     }
