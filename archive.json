@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-27T00:56:19.368222+00:00",
+  "timestamp": "2025-07-31T00:52:14.724679+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -30,7 +30,7 @@
       "id": "I_kwDOKMq2fs5_xGw3",
       "title": "Data Model",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
@@ -39,8 +39,8 @@
       ],
       "body": "Right now the data model is JSON-based, which allows arbitrary depth and is not terribly good in HTTP fields and other places like HTML attributes.\r\n\r\nWe could subset JSON like Structured Fields does, or we could adopt the SF type system (or a subset of it).",
       "createdAt": "2024-02-20T05:38:05Z",
-      "updatedAt": "2025-07-11T10:07:13Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-29T10:53:10Z",
+      "closedAt": "2025-07-29T10:53:10Z",
       "comments": [
         {
           "author": "mnot",
@@ -56,7 +56,7 @@
       "id": "I_kwDOKMq2fs6OKmgm",
       "title": "Link hint to indicate a resource class",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
@@ -65,8 +65,8 @@
       ],
       "body": "See https://github.com/mnot/I-D/issues/316",
       "createdAt": "2024-07-02T03:54:33Z",
-      "updatedAt": "2025-06-18T01:18:41Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-29T10:53:22Z",
+      "closedAt": "2025-07-29T10:53:22Z",
       "comments": [
         {
           "author": "mnot",
@@ -82,7 +82,7 @@
       "id": "I_kwDOKMq2fs6OKmmH",
       "title": "Correct usage of profiles within Link Hints",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
@@ -91,8 +91,8 @@
       ],
       "body": "See https://github.com/mnot/I-D/issues/317",
       "createdAt": "2024-07-02T03:54:54Z",
-      "updatedAt": "2025-06-18T01:20:31Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-29T10:53:32Z",
+      "closedAt": "2025-07-29T10:53:32Z",
       "comments": [
         {
           "author": "mnot",
@@ -108,7 +108,7 @@
       "id": "I_kwDOKMq2fs6OKmxb",
       "title": "How to serialize multiple \"item\" links?",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
@@ -117,8 +117,8 @@
       ],
       "body": "See https://github.com/mnot/I-D/issues/322",
       "createdAt": "2024-07-02T03:55:32Z",
-      "updatedAt": "2025-06-18T01:22:41Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-29T10:53:41Z",
+      "closedAt": "2025-07-29T10:53:41Z",
       "comments": [
         {
           "author": "mnot",
