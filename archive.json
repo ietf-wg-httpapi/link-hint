@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-05T00:53:24.734497+00:00",
+  "timestamp": "2025-08-07T00:53:01.190848+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -197,9 +197,17 @@
       "labels": [],
       "body": "If and when adopted...",
       "createdAt": "2025-07-18T18:41:30Z",
-      "updatedAt": "2025-07-18T18:41:30Z",
+      "updatedAt": "2025-08-06T10:34:06Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "https://httpwg.org/http-extensions/draft-ietf-httpbis-safe-method-w-body.html#name-the-accept-query-header-fie",
+          "createdAt": "2025-08-06T10:34:05Z",
+          "updatedAt": "2025-08-06T10:34:05Z"
+        }
+      ]
     }
   ],
   "pulls": []
