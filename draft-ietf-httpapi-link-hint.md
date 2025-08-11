@@ -89,7 +89,7 @@ Likewise, the information in a link hint is specific to the link it is attached 
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, containing HTTP methods ({{Section 9 of HTTP}}).
+Content MUST be an Inner List of Strings, containing HTTP methods ({{Section 9 of HTTP}}).
 
 ## formats
 
@@ -98,7 +98,7 @@ Content MUST be a Inner List of Strings, containing HTTP methods ({{Section 9 of
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}).
+Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}).
 
 ## accept-post
 
@@ -107,7 +107,7 @@ Content MUST be a Inner List of Strings, containing media types ({{Section 8.3.1
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, with the same constraints as for "formats".
+Content MUST be an Inner List of Strings, with the same constraints as for "formats".
 
 When this hint is present, "POST" SHOULD be listed in the "allow" hint when present.
 
@@ -141,7 +141,7 @@ When this hint is present, "QUERY" SHOLD be listed in the "allow" hint, when it 
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, containing HTTP ranges-specifiers ({{Section 14.1.1 of HTTP}}).
+Content MUST be an Inner List of Strings, containing HTTP ranges-specifiers ({{Section 14.1.1 of HTTP}}).
 
 ## accept-prefer
 
@@ -150,7 +150,7 @@ Content MUST be a Inner List of Strings, containing HTTP ranges-specifiers ({{Se
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, containing preferences ({{Section 2 of RFC7240}}). Note that, by its nature, a preference can be ignored by the server.
+Content MUST be an Inner List of Strings, containing preferences ({{Section 2 of RFC7240}}). Note that, by its nature, a preference can be ignored by the server.
 
 ## precondition-req
 
@@ -159,7 +159,7 @@ Content MUST be a Inner List of Strings, containing preferences ({{Section 2 of 
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, with possible values "etag" and "last-modified" indicating type of precondition expected.
+Content MUST be an Inner List of Strings, with possible values "etag" and "last-modified" indicating type of precondition expected.
 
 See also the 428 Precondition Required status code ({{!RFC6585}}).
 
@@ -170,7 +170,7 @@ See also the 428 Precondition Required status code ({{!RFC6585}}).
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, each corresponding to a HTTP authentication scheme ({{Section 11.1 of HTTP}}).
+Content MUST be an Inner List of Strings, each corresponding to a HTTP authentication scheme ({{Section 11.1 of HTTP}}).
 
 ## auth-realms
 
