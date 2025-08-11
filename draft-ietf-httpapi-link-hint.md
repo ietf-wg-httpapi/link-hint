@@ -62,6 +62,7 @@ More fine-grained information might also be gathered by interacting with the res
 
 There is not a single way to convey hints with a link; rather, it is expected that this will be done by individual link serialisations (see {{Section 3.4.1 of WEB-LINKING}}).
 
+Finally, these hints are not universally applicable to all links. {{Section 2.2 of WEB-LINKING}} specifies that the name space of target attributes for a given link is defined by both the link relation in use, and by the serialisation in use. Therefore, to be used in a given link, these hints need to be explicitly specified by either the link relation type or the serialisation (e.g., by referencing this specification).
 
 ## Notational Conventions
 
