@@ -36,6 +36,10 @@ normative:
   URI: RFC3986
   STRUCTURED-FIELDS: RFC9651
 
+informative:
+  PATCH: RFC5789
+  QUERY: I-D.ietf-httpbis-safe-method-w-body
+
 
 --- abstract
 
@@ -110,13 +114,25 @@ When this hint is present, "POST" SHOULD be listed in the "allow" hint when pres
 ## accept-patch
 
 * Hint Name: accept-patch
-* Description: Hints the PATCH {{!RFC5789}} request format(s) that the target resource can consume; equivalent to the Accept-Patch HTTP response header.
+* Description: Hints the PATCH {{PATCH}} request format(s) that the target resource can consume; equivalent to the Accept-Patch HTTP response header.
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be a Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}) that identify the acceptable patch formats.
+Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}) that identify the acceptable patch formats (see {{PATCH}}).
 
-When this hint is present, "PATCH" SHOULD be listed in the "allow" hint when present.
+When this hint is present, "PATCH" SHOULD be listed in the "allow" hint, when it is present.
+
+## accept-query
+
+* Hint name: accept-query
+* Description: Hints the QUERY {{QUERY}} request format(s) that the target resource can consume;
+  equivalent to the Accept-Query HTTP response header.
+* Content Model: Inner List (of Strings)
+* Specification: \[this document]
+
+Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}) that identify the acceptable query formats (see {{QUERY}}).
+
+When this hint is present, "QUERY" SHOLD be listed in the "allow" hint, when it is present.
 
 ## accept-ranges
 
@@ -176,7 +192,6 @@ Content MUST be a Token; possible values are:
 
 * deprecated - indicates that use of the resource is not recommended, but it is still available.
 * gone - indicates that the resource is no longer available; i.e., it will return a 410 (Gone) HTTP status code if accessed.
-
 
 
 # Security Considerations
