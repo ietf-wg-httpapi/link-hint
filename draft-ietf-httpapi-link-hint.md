@@ -216,14 +216,14 @@ Hint content MUST be described using valid combinations of the following types d
 
 Hint semantics SHOULD be described in terms of the framework defined in {{WEB-LINKING}}.
 
-New hints are registered using the Expert Review process described in {{?RFC8126}} to enforce the criteria above. Requests for registration of new resource hints are to use the following template:
+New hints are registered using the IETF Review process described in {{?RFC8126}}. Registration of new resource hints are to use the following template:
 
 * Hint Name: \[hint name]
 * Description: \[a short description of the hint's semantics]
 * Content Model: \[allowed Structured Fields types]
 * Specification: \[reference to specification document]
 
-Initial registrations are enumerated in {{hints}}. The "rel", "rev", "hreflang", "media", "title", and "type" hint names are reserved, so as to avoid potential clashes with link serialisations.
+Initial registrations are enumerated in {{hints}}. Additionally, the "rel", "rev", "hreflang", "media", "title", and "type" hint names are reserved, so as to avoid potential clashes with link serialisations.
 
 
 --- back
