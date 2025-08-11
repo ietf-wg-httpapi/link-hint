@@ -3,9 +3,9 @@
 
 
 Network Working Group                                      M. Nottingham
-Internet-Draft                                              18 June 2025
+Internet-Draft                                            11 August 2025
 Intended status: Standards Track                                        
-Expires: 20 December 2025
+Expires: 12 February 2026
 
 
                             HTTP Link Hints
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 December 2025.
+   This Internet-Draft will expire on 12 February 2026.
 
 Copyright Notice
 
@@ -75,12 +75,13 @@ Table of Contents
      3.2.  formats
      3.3.  accept-post
      3.4.  accept-patch
-     3.5.  accept-ranges
-     3.6.  accept-prefer
-     3.7.  precondition-req
-     3.8.  auth-schemes
-     3.9.  auth-realms
-     3.10. status
+     3.5.  accept-query
+     3.6.  accept-ranges
+     3.7.  accept-prefer
+     3.8.  precondition-req
+     3.9.  auth-schemes
+     3.10. auth-realms
+     3.11. status
    4.  Security Considerations
    5.  IANA Considerations
      5.1.  HTTP Link Hint Registry
@@ -128,6 +129,14 @@ Table of Contents
    expected that this will be done by individual link serialisations
    (see Section 3.4.1 of [WEB-LINKING]).
 
+   Finally, these hints are not universally applicable to all links.
+   Section 2.2 of [WEB-LINKING] specifies that the name space of target
+   attributes for a given link is defined by both the link relation in
+   use, and by the serialisation in use.  Therefore, to be used in a
+   given link, these hints need to be explicitly specified by either the
+   link relation type or the serialisation (e.g., by referencing this
+   specification).
+
 1.1.  Notational Conventions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -173,7 +182,7 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, containing HTTP methods
+   Content MUST be an Inner List of Strings, containing HTTP methods
    (Section 9 of [HTTP]).
 
 3.2.  formats
@@ -188,7 +197,7 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, containing media types
+   Content MUST be an Inner List of Strings, containing media types
    (Section 8.3.1 of [HTTP]).
 
 3.3.  accept-post
@@ -202,8 +211,8 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, with the same constraints as
-   for "formats".
+   Content MUST be an Inner List of Strings, with the same constraints
+   as for "formats".
 
    When this hint is present, "POST" SHOULD be listed in the "allow"
    hint when present.
@@ -212,7 +221,7 @@ Table of Contents
 
    *  Hint Name: accept-patch
 
-   *  Description: Hints the PATCH [RFC5789] request format(s) that the
+   *  Description: Hints the PATCH [PATCH] request format(s) that the
       target resource can consume; equivalent to the Accept-Patch HTTP
       response header.
 
@@ -220,13 +229,33 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, containing media types
-   (Section 8.3.1 of [HTTP]) that identify the acceptable patch formats.
+   Content MUST be an Inner List of Strings, containing media types
+   (Section 8.3.1 of [HTTP]) that identify the acceptable patch formats
+   (see [PATCH]).
 
    When this hint is present, "PATCH" SHOULD be listed in the "allow"
-   hint when present.
+   hint, when it is present.
 
-3.5.  accept-ranges
+3.5.  accept-query
+
+   *  Hint name: accept-query
+
+   *  Description: Hints the QUERY [QUERY] request format(s) that the
+      target resource can consume; equivalent to the Accept-Query HTTP
+      response header.
+
+   *  Content Model: Inner List (of Strings)
+
+   *  Specification: [this document]
+
+   Content MUST be an Inner List of Strings, containing media types
+   (Section 8.3.1 of [HTTP]) that identify the acceptable query formats
+   (see [QUERY]).
+
+   When this hint is present, "QUERY" SHOLD be listed in the "allow"
+   hint, when it is present.
+
+3.6.  accept-ranges
 
    *  Hint Name: accept-ranges
 
@@ -238,10 +267,10 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, containing HTTP ranges-
+   Content MUST be an Inner List of Strings, containing HTTP ranges-
    specifiers (Section 14.1.1 of [HTTP]).
 
-3.6.  accept-prefer
+3.7.  accept-prefer
 
    *  Hint Name: accept-prefer
 
@@ -252,11 +281,11 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, containing preferences
+   Content MUST be an Inner List of Strings, containing preferences
    (Section 2 of [RFC7240]).  Note that, by its nature, a preference can
    be ignored by the server.
 
-3.7.  precondition-req
+3.8.  precondition-req
 
    *  Hint Name: precondition-req
 
@@ -269,12 +298,12 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, with possible values "etag"
+   Content MUST be an Inner List of Strings, with possible values "etag"
    and "last-modified" indicating type of precondition expected.
 
    See also the 428 Precondition Required status code ([RFC6585]).
 
-3.8.  auth-schemes
+3.9.  auth-schemes
 
    *  Hint Name: auth-schemes
 
@@ -286,10 +315,10 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Inner List of Strings, each corresponding to a HTTP
-   authentication scheme (Section 11.1 of [HTTP]).
+   Content MUST be an Inner List of Strings, each corresponding to a
+   HTTP authentication scheme (Section 11.1 of [HTTP]).
 
-3.9.  auth-realms
+3.10.  auth-realms
 
    *  Hint Name: auth-realms
 
@@ -304,7 +333,7 @@ Table of Contents
    Content MUST be an Inner List of Strings, each indicating a
    protection space that the resource is a member of.
 
-3.10.  status
+3.11.  status
 
    *  Hint Name: status
 
@@ -356,9 +385,9 @@ Table of Contents
    Hint semantics SHOULD be described in terms of the framework defined
    in [WEB-LINKING].
 
-   New hints are registered using the Expert Review process described in
-   [RFC8126] to enforce the criteria above.  Requests for registration
-   of new resource hints are to use the following template:
+   New hints are registered using the IETF Review process described in
+   [RFC8126].  Registration of new resource hints are to use the
+   following template:
 
    *  Hint Name: [hint name]
 
@@ -368,9 +397,9 @@ Table of Contents
 
    *  Specification: [reference to specification document]
 
-   Initial registrations are enumerated in Section 3.  The "rel", "rev",
-   "hreflang", "media", "title", and "type" hint names are reserved, so
-   as to avoid potential clashes with link serialisations.
+   Initial registrations are enumerated in Section 3.  Additionally, the
+   "rel", "rev", "hreflang", "media", "title", and "type" hint names are
+   reserved, so as to avoid potential clashes with link serialisations.
 
 6.  References
 
@@ -396,10 +425,6 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
-
-   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP",
-              RFC 5789, DOI 10.17487/RFC5789, March 2010,
-              <https://www.rfc-editor.org/rfc/rfc5789>.
 
    [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
               Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
@@ -429,6 +454,16 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc8288>.
 
 6.2.  Informative References
+
+   [PATCH]    Dusseault, L. and J. Snell, "PATCH Method for HTTP",
+              RFC 5789, DOI 10.17487/RFC5789, March 2010,
+              <https://www.rfc-editor.org/rfc/rfc5789>.
+
+   [QUERY]    Reschke, J., Snell, J. M., and M. Bishop, "The HTTP QUERY
+              Method", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-safe-method-w-body-11, 19 May 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              safe-method-w-body-11>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
