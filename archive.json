@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-10T00:55:48.462222+00:00",
+  "timestamp": "2025-08-12T00:47:21.374001+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -134,15 +134,15 @@
       "id": "I_kwDOKMq2fs6OKm4r",
       "title": "Link Hints Registry",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/6",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Some thought needs to go into the registry, since registered values are effectively used for ALL link hints in all serialisations that opt into it.",
       "createdAt": "2024-07-02T03:55:58Z",
-      "updatedAt": "2025-07-11T13:13:43Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-11T05:15:25Z",
+      "closedAt": "2025-08-11T05:15:25Z",
       "comments": [
         {
           "author": "mnot",
@@ -172,7 +172,7 @@
       "id": "I_kwDOKMq2fs7AER1A",
       "title": "Make it clear how to opt into link hints",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mnot",
       "authorAssociation": "MEMBER",
       "assignees": [],
@@ -181,8 +181,8 @@
       ],
       "body": "",
       "createdAt": "2025-07-11T10:08:58Z",
-      "updatedAt": "2025-07-11T13:14:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-11T05:15:26Z",
+      "closedAt": "2025-08-11T05:15:26Z",
       "comments": []
     },
     {
@@ -190,15 +190,15 @@
       "id": "I_kwDOKMq2fs7BXG8V",
       "title": "\"accept-query\" hint?",
       "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "CxRes",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "If and when adopted...",
       "createdAt": "2025-07-18T18:41:30Z",
-      "updatedAt": "2025-08-06T10:34:06Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-11T05:15:25Z",
+      "closedAt": "2025-08-11T05:15:25Z",
       "comments": [
         {
           "author": "mnot",
