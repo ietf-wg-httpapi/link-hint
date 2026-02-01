@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-29T01:00:00.952563+00:00",
+  "timestamp": "2026-02-01T01:10:44.434825+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -208,6 +208,22 @@
           "updatedAt": "2025-08-06T10:34:05Z"
         }
       ]
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOKMq2fs7nSsdI",
+      "title": "Why \"format\" and not \"accept\" hint",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/9",
+      "state": "OPEN",
+      "author": "CxRes",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The names of all the other hints correspond to the respective HTTP header fields. Except `format`, which as I understand hints at possible value that can be sent by a client in an `accept` header field. Any particular reason for this choice?",
+      "createdAt": "2026-01-31T23:45:29Z",
+      "updatedAt": "2026-01-31T23:45:29Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": []
