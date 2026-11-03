@@ -140,7 +140,7 @@ When this hint is present, "QUERY" SHOULD be listed in the "allow" hint, when it
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, containing HTTP ranges-specifiers ({{Section 14.1.1 of HTTP}}).
+Content MUST be an Inner List of Strings, each containing a HTTP range-unit ({{Section 14.1 of HTTP}}).
 
 ## accept-prefer
 
