@@ -195,7 +195,47 @@ Content MUST be a Token; possible values are:
 
 # Security Considerations
 
-Clients need to exercise care when using hints. For example, a naive client might send credentials to a server that uses the auth-req hint, without checking to see if those credentials are appropriate for that server.
+Link hints are assertions made by the party that publishes a link. That party might not control the
+target resource, and there is no mechanism for hint verification other than interacting with the
+resource. Hints are therefore defined as advisory (see {{link_hints}}): the behaviour of the target
+resource always takes precedence, and a client ought to be prepared for any hint to be wrong,
+whether through staleness, error or malice.
+
+## Authority of Hints
+
+A hint carries the authority of the link's publisher, not of the target. This is most relevant when
+a link in one origin's representation points at another origin. A client ought not to take actions
+with side effects, or with security consequences, on the strength of a hint alone.
+
+For example, "auth-schemes" and "auth-realms" could be used to coax a client into offering
+credentials to a server that has not asked for them. A client ought to send credentials only in
+response to a challenge from the target resource ({{Section 11 of HTTP}}), and ought not to treat
+these hints as a substitute for that challenge. Likewise, a "status" of "gone" or "deprecated"
+might lead a client or user to avoid a resource that is in fact available, and "allow" or "formats"
+might lead a user interface to offer operations that the resource will refuse.
+
+Hints are not access control. A server cannot rely on a client having honoured a hint, and has to
+enforce its policy on every request regardless of what was published. Conversely, the absence of a
+hint says nothing about what the target allows or requires.
+
+## Hints That Vary By User
+
+As noted in {{link_hints}}, hints in a user-specific representation are themselves user-specific.
+Hints such as "allow" and "precondition-req" reveal what that user is able to do. If a
+representation containing them can be stored or served to other parties -- for example, by a shared
+cache, or in a catalogue of links assembled for many users -- those hints can be exposed to, or
+acted on by, someone they were not generated for. Publishers ought to control caching of such
+representations ({{Section 5.2 of HTTP-CACHING}}), and avoid placing user-specific hints in
+representations that are shared.
+
+Publishers can also disclose through hints what the target would reveal only to authenticated
+clients, such as the methods or formats of a resource whose existence is otherwise confidential.
+They ought to consider whether everyone who can see the link is entitled to know what its hints say.
+
+## Stale Hints
+
+A hint can be out of date as soon as it is published. Where a hint and the target's actual
+behaviour disagree, a client ought to treat the hint as the one that is wrong.
 
 
 # IANA Considerations
