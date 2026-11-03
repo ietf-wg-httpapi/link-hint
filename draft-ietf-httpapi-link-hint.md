@@ -69,9 +69,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # HTTP Link Hints {#link_hints}
 
-An HTTP link hint is a (key, value) tuple that either describes the target resource of a Web link {{WEB-LINKING}} to a HTTP or HTTPS resource, or describes such a link itself. The value's canonical form is expressed in a subset of the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}}.
+An HTTP link hint is a (key, value) tuple that either describes the target resource of a Web link {{WEB-LINKING}} to a HTTP or HTTPS resource, or describes such a link itself. The value's content model is expressed in a subset of the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}}. Recipients MUST ignore hints that do not conform to their defined content model.
 
-Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4.1 of WEB-LINKING}}). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the canonical data model into the constraints of that format.
+Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4.1 of WEB-LINKING}}). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the content model into the constraints of that format.
 
 The information in a hint SHOULD NOT be considered valid for longer than the freshness lifetime ({{Section 4.2 of HTTP-CACHING}}) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.
 
@@ -88,7 +88,7 @@ Likewise, the information in a hint is specific to the link it is attached to. T
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, containing HTTP methods ({{Section 9 of HTTP}}).
+Each String in the Inner List is a HTTP method ({{Section 9 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
 ## formats
 
@@ -97,7 +97,7 @@ Content MUST be an Inner List of Strings, containing HTTP methods ({{Section 9 o
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}).
+Each String in the Inner List is a media type ({{Section 8.3.1 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
 ## accept-post
 
@@ -106,7 +106,7 @@ Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, with the same constraints as for "formats".
+Each String in the Inner List is a media type ({{Section 8.3.1 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
 When this hint is present, "POST" SHOULD be listed in the "allow" hint when present.
 
@@ -117,7 +117,7 @@ When this hint is present, "POST" SHOULD be listed in the "allow" hint when pres
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}) that identify the acceptable patch formats (see {{PATCH}}).
+Each String in the Inner List is a media type ({{Section 8.3.1 of HTTP}}) that identifies an acceptable patch format (see {{PATCH}}); unrecognised values MUST be ignored by recipients.
 
 When this hint is present, "PATCH" SHOULD be listed in the "allow" hint, when it is present.
 
@@ -129,7 +129,7 @@ When this hint is present, "PATCH" SHOULD be listed in the "allow" hint, when it
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}) that identify the acceptable query formats (see {{QUERY}}).
+Each String in the Inner List is a media type ({{Section 8.3.1 of HTTP}}) that identifies an acceptable query format (see {{QUERY}}); unrecognised values MUST be ignored by recipients.
 
 When this hint is present, "QUERY" SHOULD be listed in the "allow" hint, when it is present.
 
@@ -140,7 +140,7 @@ When this hint is present, "QUERY" SHOULD be listed in the "allow" hint, when it
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, each containing a HTTP range-unit ({{Section 14.1 of HTTP}}).
+Each String in the Inner List is a range-unit ({{Section 14.1 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
 ## accept-prefer
 
@@ -149,7 +149,7 @@ Content MUST be an Inner List of Strings, each containing a HTTP range-unit ({{S
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, containing preferences ({{Section 2 of RFC7240}}). Note that, by its nature, a preference can be ignored by the server.
+Each String in the Inner List is a preference ({{Section 2 of RFC7240}}); unrecognised values MUST be ignored by recipients. Note that, by its nature, a preference can be ignored by the server.
 
 ## precondition-req
 
@@ -158,7 +158,7 @@ Content MUST be an Inner List of Strings, containing preferences ({{Section 2 of
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, with possible values "etag" and "last-modified" indicating type of precondition expected.
+Possible values for the String are "etag" and "last-modified", indicating type of precondition expected. Other values MUST be ignored by recipients.
 
 See also the 428 Precondition Required status code ({{?RFC6585}}).
 
@@ -169,7 +169,7 @@ See also the 428 Precondition Required status code ({{?RFC6585}}).
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, each corresponding to an HTTP authentication scheme ({{Section 11.1 of HTTP}}).
+Each String in the Inner List is an HTTP authentication scheme ({{Section 11.1 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
 ## auth-realms
 
@@ -178,7 +178,7 @@ Content MUST be an Inner List of Strings, each corresponding to an HTTP authenti
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, each indicating a protection space that the resource is a member of.
+Each String in the Inner List identifies a protection space that the resource is a member of; unrecognised values MUST be ignored by recipients.
 
 ## status
 
@@ -187,10 +187,12 @@ Content MUST be an Inner List of Strings, each indicating a protection space tha
 * Content Model: Token
 * Specification: \[this document]
 
-Content MUST be a Token; possible values are:
+Possible values are:
 
 * deprecated - indicates that use of the resource is not recommended, but it is still available.
 * gone - indicates that the resource is no longer available; i.e., it will return a 410 (Gone) HTTP status code if accessed.
+
+Unrecognised Tokens MUST be ignored by recipients.
 
 
 # Security Considerations
