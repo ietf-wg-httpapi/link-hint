@@ -1,3 +1,5 @@
+<!-- regenerate: on (set to off if you edit this file) -->
+
 # HTTP Link Hints
 
 This is the working area for the IETF [HTTPAPI Working Group](https://datatracker.ietf.org/group/httpapi/documents/) Internet-Draft, "HTTP Link Hints".
@@ -13,9 +15,8 @@ This is the working area for the IETF [HTTPAPI Working Group](https://datatracke
 See the
 [guidelines for contributions](https://github.com/ietf-wg-httpapi/link-hint/blob/main/CONTRIBUTING.md).
 
-Contributions can be made by creating pull requests.
-The GitHub interface supports creating pull requests using the Edit (✏) button.
-
+The contributing file also has tips on how to make contributions, if you
+don't already know how to do that.
 
 ## Command Line Usage
 
