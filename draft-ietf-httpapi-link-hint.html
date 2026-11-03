@@ -9,23 +9,23 @@
 <meta content='
        This memo specifies "HTTP Link Hints", a mechanism for annotating Web links to HTTP(S) resources with information that otherwise might be discovered by interacting with them. 
     ' name="description">
-<meta content="xml2rfc 3.30.0" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-httpapi-link-hint-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.0
-    Python 3.12.11
-    ConfigArgParse 1.7
+  xml2rfc 3.35.0
+    Python 3.14.10
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 5.3.1
-    platformdirs 4.3.8
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.14.3
     pycountry 24.6.1
-    PyYAML 6.0.2
-    requests 2.32.4
-    setuptools 80.9.0
-    wcwidth 0.2.13
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.9.4
 -->
 <link href="draft-ietf-httpapi-link-hint.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -61,7 +61,6 @@
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -110,7 +109,6 @@
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -166,7 +164,7 @@
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -174,7 +172,7 @@
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -291,16 +289,19 @@ h1, h2, h3, h4, h5, h6 {
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-h1#title {
-  font-size: 32px;
-  line-height: 40px;
-  clear: both;
-}
-h1#title, h1#rfcnum {
-  margin: 1.5em 0 0.2em;
-}
-h1#rfcnum + h1#title {
-  margin: 0.2em 0;
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
 }
 
 h1, h2, h3 {
@@ -320,10 +321,10 @@ h4, h5, h6 {
 #abstract+p {
   font-size: 18px;
   line-height: 24px;
-}
-#abstract+p code, #abstract+p samp, #abstract+p tt {
-  font-size: 16px;
-  line-height: 0;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
 }
 
 p {
@@ -334,59 +335,59 @@ p {
 div {
   margin: 0;
 }
-.alignRight.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignRight.art-text pre {
-  padding: 0;
-  width: auto;
-}
 .alignRight {
   margin: 1em 0;
-}
-.alignRight > *:first-child {
-  border: none;
-  margin: 0;
-  float: right;
-  clear: both;
-}
-.alignRight > *:nth-child(2) {
-  clear: both;
-  display: block;
-  border: none;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
 }
 svg {
   display: block;
-}
-/* font-family isn't space-separated, but =~ will have to do */
-svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
-  font-family: var(--font-mono);
-}
-.alignCenter.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignCenter.art-text pre {
-  padding: 0;
-  width: auto;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
 }
 .alignCenter {
   margin: 1em 0;
-}
-.alignCenter > *:first-child {
-  border: none;
-  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
-     support flexbox yet.
-  */
-  display: table;
-  margin: 0 auto;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
 }
 
 /* lists */
@@ -424,26 +425,25 @@ dl {
     --indent: 5ch;
     & > dt {
       min-width: calc(var(--indent) - 2ch);
+      float: none;
     }
-  }
-  &.olPercent > dt {
-    float: none;
   }
 
   dl > dd > & {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
-}
-dl:not(.dlNewline) > dt {
-  float: left;
-  margin-right: 2ch;
-  min-width: 8ch;
-}
-dl > dd {
-  margin-bottom: .8em;
-  margin-left: var(--indent) !important; /* stupid element overrides */
-  min-height: 2ex;
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -459,20 +459,22 @@ dl > dd {
 }
 
 /* links */
-a, a[href].selfRef:hover {
+a {
   text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
 }
-a[href] {
-  color: var(--link-color);
-}
-a[href].selfRef, .iref + a[href].internal {
+.iref + a[href].internal {
   color: var(--text-color);
-}
-a[href]:hover {
-  text-decoration: underline;
-}
-a[href].selfRef:hover {
-  background-color: var(--highlight-color);
 }
 a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
@@ -508,9 +510,9 @@ img {
 figure {
   margin: 0.5em 0;
   padding: 0;
-}
-figure blockquote {
-  margin: 0.8em 0.4em 0.4em;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
 }
 figcaption, caption {
   font-style: italic;
@@ -520,17 +522,19 @@ figcaption, caption {
 }
 @media screen {
   /* Auto-collapse boilerplate. */
-  :is(#status-of-memo, #copyright) p {
-    margin: -2px 0;
-    max-height: 0;
-    transition: max-height 2s ease, margin 0.5s ease 0.5s;
-    overflow: hidden;
-  }
-  :is(#status-of-memo, #copyright):hover p,
-  :is(#status-of-memo, #copyright) h2:target ~ p {
-    margin: 0.5em 0;
-    max-height: 500px;
-    overflow: auto;
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
   }
   pre, svg {
     display: inline-block;
@@ -566,6 +570,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -579,25 +584,17 @@ table {
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
-}
-table.right {
-  margin-left: auto;
-}
-table.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-table.left {
-  margin-right: auto;
-}
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
 }
 
 thead, tbody {
@@ -617,13 +614,6 @@ th {
 :is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
 }
-table caption {
-  margin: 0;
-  padding: 3px 0 3px 1em;
-}
-table p {
-  margin: 0;
-}
 
 /* pilcrow */
 a.pilcrow {
@@ -634,18 +624,16 @@ a.pilcrow {
     color: var(--pilcrow-weak);
     &:hover { text-decoration: none; }
   }
-}
-@media not print {
-  :hover > a.pilcrow {
-    opacity: 1;
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
   }
-  a.pilcrow[href]:hover {
-    color: var(--pilcrow-strong);
-    background-color: transparent;
-  }
-}
-@media print {
-  a.pilcrow {
+  @media print {
     display: none;
   }
 }
@@ -704,9 +692,9 @@ sub, sup {
   font-size: 0.9em;
   font-style: italic;
   margin-top: 2em;
-}
-.docInfo .prepared {
-  float: right;
+  & .prepared {
+    float: right;
+  }
 }
 
 /* table of contents */
@@ -796,23 +784,27 @@ hr.addr {
   max-width: calc(100% - 16px);
 }
 @media (min-width: 500px) {
-  #authors-addresses > section {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  #authors-addresses > section > h2 {
-    column-span: all;
-  }
-  /* hack for break-inside: avoid-column */
-  #authors-addresses address {
-    display: inline-block;
-    break-inside: avoid-column;
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
   }
 }
 
 /* Comments */
-.rfcEditorRemove p:first-of-type {
-  font-style: italic;
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
 }
 .cref {
   background-color: rgba(249, 232, 105, 0.3);
@@ -823,19 +815,21 @@ hr.addr {
 }
 
 @media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
-    & > ul { margin-bottom: 2em; }
-    & ul {
-      margin: 0 0 0 4px;
-      & :is(p, li) {
-        margin: 2px 0;
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
       }
     }
-  }
-  #toc a.toplink {
-    float: right;
+    & a.toplink {
+      float: right;
+    }
   }
 }
 @media not screen {
@@ -856,54 +850,54 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 2px 0 2px 6px;
-    padding-right: 1em;
-    font-size: 18px;
-    line-height: 24px;
-    min-width: 190px;
-    text-align: right;
-    background-color: #444;
-    color: white;
-    cursor: pointer;
-    &::before { /* css hamburger */
-      float: right;
-      position: relative;
-      width: 1em;
-      height: 1px;
-      left: -164px;
-      margin: 8px 0 0 0;
-      background: white none repeat scroll 0 0;
-      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-      content: "";
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
     }
-  }
-  #toc nav {
-    display: none;
-    background-color: var(--background-color);
-    padding: 0.5em 1em 1em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    height: calc(100vh - 48px);
-    border-left: 1px solid #ddd;
-  }
-  #toc.active {
-    opacity: 1;
-    & nav { display: block; }
-  }
-  /* Make the collapsed ToC header render white on gray also when it's a link */
-  #toc h2 a,
-  #toc h2 a:is(:link, :focus, :hover),
-  #toc a.toplink,
-  #toc a.toplink:hover {
-    color: white;
-    background-color: #444;
-    text-decoration: none;
-  }
-  #toc a.toplink {
-    margin: 2px 0.5em 0;
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
   }
 }
 
@@ -922,26 +916,26 @@ hr.addr {
     margin: 0;
     padding: 0;
     z-index: 1;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 0.25em 1em 1em 0;
-  }
-  #toc nav {
-    display: block;
-    height: calc(90vh - 84px);
-    bottom: 0;
-    padding: 0.5em 0 2em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
   }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
-  }
-  #toc a.toplink {
-    margin: 8px 0.5em 0;
   }
 }
 
@@ -957,12 +951,13 @@ hr.addr {
   #n-copyright-notice {
     border-bottom: none;
   }
-  #toc, #n-introduction {
-    page-break-before: always;
-  }
   #toc {
+    page-break-before: always;
     border-top: none;
     padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
   }
   figure, pre, .vcard {
     page-break-inside: avoid;
@@ -1024,17 +1019,19 @@ hr.addr {
 }
 
 /* SVG Trick: a prefix match works because only black and white are allowed */
-svg :is([stroke="black"], [stroke^="#000"]) {
-  stroke: var(--text-color);
-}
-svg :is([stroke="white"], [stroke^="#fff"]) {
-  stroke: var(--background-color);
-}
-svg :is([fill="black"], [fill^="#000"], :not([fill])) {
-  fill: var(--text-color);
-}
-svg :is([fill="white"], [fill^="#fff"]) {
-  fill: var(--background-color);
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
 }
 </style>
 
@@ -1044,11 +1041,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">HTTP Link Hints</td>
-<td class="right">August 2025</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Nottingham</td>
-<td class="center">Expires 12 February 2026</td>
+<td class="center">Expires 7 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1058,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-httpapi-link-hint-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-08-11" class="published">11 August 2025</time>
+<time datetime="2026-11-03" class="published">3 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-02-12">12 February 2026</time></dd>
+<dd class="expires"><time datetime="2027-05-07">7 May 2027</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1094,7 +1091,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/httpapi/">https://mailarchive.ietf.org/arch/browse/httpapi/</a></span>.
         Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/httpapi/">https://www.ietf.org/mailman/listinfo/httpapi/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 <p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/ietf-wg-httpapi/link-lint">https://github.com/ietf-wg-httpapi/link-lint</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/ietf-wg-httpapi/link-hint">https://github.com/ietf-wg-httpapi/link-hint</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1115,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1124,7 +1121,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1195,6 +1192,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-authority-of-hints" class="internal xref">Authority of Hints</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-hints-that-vary-by-user" class="internal xref">Hints That Vary By User</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-stale-hints" class="internal xref">Stale Hints</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
@@ -1230,7 +1238,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">HTTP <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span> clients can discover a variety of information about a resource by interacting with it. For example, the methods supported by a resource can be learned by examining the Allow header field in responses from it, and the need for authentication is conveyed with a 401 (Authentication Required) status code.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">HTTP <span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span> clients can discover a variety of information about a resource by interacting with it. For example, the methods supported by a resource can be learned by examining the Allow header field in responses from it, and the need for authentication is conveyed with a 401 (Unauthorized) status code.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Often, it can be beneficial to know this information before interacting with the resource; not only can such knowledge save time (through reduced round trips), but it can also influence the choices made by the code or user driving the interaction. For example, a user interface that presents the data from an HTTP-based API might need to know which resources the user has write access to, so that it can present the appropriate interface.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">This specification defines a vocabulary of HTTP link hints that allow such metadata about HTTP resources to be attached to Web links <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>, thereby making it available before the link is followed. It also establishes a registry for future hints.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">Hints are just that -- they are not a contract, and are to only be taken as advisory. The runtime behaviour of the resource always overrides hinted information. For example, a client might receive a hint that the PUT method is allowed on all "widget" resources. This means that generally, the client can send a PUT to them, but a specific resource might reject a PUT based upon access control or other considerations.<a href="#section-1-4" class="pilcrow">¶</a></p>
@@ -1252,10 +1260,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-http-link-hints">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-http-link-hints" class="section-name selfRef">HTTP Link Hints</a>
       </h2>
-<p id="section-2-1">A HTTP link hint is a (key, value) tuple that describes the target resource of a Web link <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>, or describes the link itself. The value's canonical form is expressed in subset of the data types defined by HTTP Structured Fields <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">Typically, link hints are serialised in links as target attributes (<span><a href="https://rfc-editor.org/rfc/rfc8288#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the canonical data model into the constraints of that format.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">The information in a link hint SHOULD NOT be considered valid for longer than the freshness lifetime (<span><a href="https://rfc-editor.org/rfc/rfc9111#section-4.2" class="relref">Section 4.2</a> of [<a href="#HTTP-CACHING" class="cite xref">HTTP-CACHING</a>]</span>) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4">Likewise, the information in a link hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-1">An HTTP link hint is a (key, value) tuple that either describes the target resource of a Web link <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span> to a HTTP or HTTPS resource, or describes such a link itself. The value's content model is expressed in a subset of the data types defined by HTTP Structured Fields <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>. Recipients MUST ignore hints that do not conform to their defined content model.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">Typically, HTTP link hints are serialised in links as target attributes (<span><a href="https://rfc-editor.org/rfc/rfc8288#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the content model into the constraints of that format.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">The information in a hint SHOULD NOT be considered valid for longer than the freshness lifetime (<span><a href="https://rfc-editor.org/rfc/rfc9111#section-4.2" class="relref">Section 4.2</a> of [<a href="#HTTP-CACHING" class="cite xref">HTTP-CACHING</a>]</span>, including both explicit and heuristic freshness) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">Likewise, the information in a hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.<a href="#section-2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="hints">
@@ -1282,7 +1290,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.1-1.4.1">Specification: [this document]<a href="#section-3.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.1-2">Content MUST be an Inner List of Strings, containing HTTP methods (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-9" class="relref">Section 9</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Each String in the Inner List is a HTTP method (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-9" class="relref">Section 9</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="formats">
@@ -1304,7 +1312,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.2-1.4.1">Specification: [this document]<a href="#section-3.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-2">Content MUST be an Inner List of Strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Each String in the Inner List is a media type (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-post">
@@ -1326,7 +1334,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.3-1.4.1">Specification: [this document]<a href="#section-3.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.3-2">Content MUST be an Inner List of Strings, with the same constraints as for "formats".<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Each String in the Inner List is a media type (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 <p id="section-3.3-3">When this hint is present, "POST" SHOULD be listed in the "allow" hint when present.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1349,7 +1357,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-3.4-1.4.1">Specification: [this document]<a href="#section-3.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.4-2">Content MUST be an Inner List of Strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identify the acceptable patch formats (see <span>[<a href="#PATCH" class="cite xref">PATCH</a>]</span>).<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Each String in the Inner List is a media type (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identifies an acceptable patch format (see <span>[<a href="#PATCH" class="cite xref">PATCH</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
 <p id="section-3.4-3">When this hint is present, "PATCH" SHOULD be listed in the "allow" hint, when it is present.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1360,21 +1368,21 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </h3>
 <ul class="normal">
 <li class="normal" id="section-3.5-1.1">
-            <p id="section-3.5-1.1.1">Hint name: accept-query<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-1.1.1">Hint Name: accept-query<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.2">
             <p id="section-3.5-1.2.1">Description: Hints the QUERY <span>[<a href="#QUERY" class="cite xref">QUERY</a>]</span> request format(s) that the target resource can consume;
 equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.3">
-            <p id="section-3.5-1.3.1">Content Model: Inner List (of Strings)<a href="#section-3.5-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-1.3.1">Content Model: Inner List of Strings<a href="#section-3.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-1.4">
             <p id="section-3.5-1.4.1">Specification: [this document]<a href="#section-3.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.5-2">Content MUST be an Inner List of Strings, containing media types (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identify the acceptable query formats (see <span>[<a href="#QUERY" class="cite xref">QUERY</a>]</span>).<a href="#section-3.5-2" class="pilcrow">¶</a></p>
-<p id="section-3.5-3">When this hint is present, "QUERY" SHOLD be listed in the "allow" hint, when it is present.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
+<p id="section-3.5-2">Each String in the Inner List is a media type (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-8.3.1" class="relref">Section 8.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) that identifies an acceptable query format (see <span>[<a href="#QUERY" class="cite xref">QUERY</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
+<p id="section-3.5-3">When this hint is present, "QUERY" SHOULD be listed in the "allow" hint, when it is present.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-ranges">
@@ -1396,7 +1404,7 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.6-1.4.1">Specification: [this document]<a href="#section-3.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.6-2">Content MUST be an Inner List of Strings, containing HTTP ranges-specifiers (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-14.1.1" class="relref">Section 14.1.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.6-2">Each String in the Inner List is a range-unit (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-14.1" class="relref">Section 14.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accept-prefer">
@@ -1418,7 +1426,7 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.7-1.4.1">Specification: [this document]<a href="#section-3.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.7-2">Content MUST be an Inner List of Strings, containing preferences (<span><a href="https://rfc-editor.org/rfc/rfc7240#section-2" class="relref">Section 2</a> of [<a href="#RFC7240" class="cite xref">RFC7240</a>]</span>). Note that, by its nature, a preference can be ignored by the server.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
+<p id="section-3.7-2">Each String in the Inner List is a preference (<span><a href="https://rfc-editor.org/rfc/rfc7240#section-2" class="relref">Section 2</a> of [<a href="#RFC7240" class="cite xref">RFC7240</a>]</span>); unrecognised values MUST be ignored by recipients. Note that, by its nature, a preference can be ignored by the server.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="precondition-req">
@@ -1440,7 +1448,7 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.8-1.4.1">Specification: [this document]<a href="#section-3.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.8-2">Content MUST be an Inner List of Strings, with possible values "etag" and "last-modified" indicating type of precondition expected.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
+<p id="section-3.8-2">Possible values for the String are "etag" and "last-modified", indicating type of precondition expected. Other values MUST be ignored by recipients.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
 <p id="section-3.8-3">See also the 428 Precondition Required status code (<span>[<a href="#RFC6585" class="cite xref">RFC6585</a>]</span>).<a href="#section-3.8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1463,7 +1471,7 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.9-1.4.1">Specification: [this document]<a href="#section-3.9-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.9-2">Content MUST be an Inner List of Strings, each corresponding to a HTTP authentication scheme (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.1" class="relref">Section 11.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3.9-2" class="pilcrow">¶</a></p>
+<p id="section-3.9-2">Each String in the Inner List is an HTTP authentication scheme (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.1" class="relref">Section 11.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>); unrecognised values MUST be ignored by recipients.<a href="#section-3.9-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="auth-realms">
@@ -1479,13 +1487,13 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.10-1.2.1">Description: Hints the authentication realm(s) available for those schemes that support them in the HTTP Authentication framework <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11" class="relref">Section 11</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>.<a href="#section-3.10-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.10-1.3">
-            <p id="section-3.10-1.3.1">Content Model: Inner List (of Strings)<a href="#section-3.10-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.10-1.3.1">Content Model: Inner List of Strings<a href="#section-3.10-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.10-1.4">
             <p id="section-3.10-1.4.1">Specification: [this document]<a href="#section-3.10-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.10-2">Content MUST be an Inner List of Strings, each indicating a protection space that the resource is a member of.<a href="#section-3.10-2" class="pilcrow">¶</a></p>
+<p id="section-3.10-2">Each String in the Inner List identifies a protection space that the resource is a member of; unrecognised values MUST be ignored by recipients.<a href="#section-3.10-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="status">
@@ -1507,7 +1515,7 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.11-1.4.1">Specification: [this document]<a href="#section-3.11-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.11-2">Content MUST be a Token; possible values are:<a href="#section-3.11-2" class="pilcrow">¶</a></p>
+<p id="section-3.11-2">Possible values are:<a href="#section-3.11-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.11-3.1">
             <p id="section-3.11-3.1.1">deprecated - indicates that use of the resource is not recommended, but it is still available.<a href="#section-3.11-3.1.1" class="pilcrow">¶</a></p>
@@ -1516,6 +1524,7 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
             <p id="section-3.11-3.2.1">gone - indicates that the resource is no longer available; i.e., it will return a 410 (Gone) HTTP status code if accessed.<a href="#section-3.11-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-3.11-4">Unrecognised Tokens MUST be ignored by recipients.<a href="#section-3.11-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1525,7 +1534,56 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
       <h2 id="name-security-considerations">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-4-1">Clients need to exercise care when using hints. For example, a naive client might send credentials to a server that uses the auth-req hint, without checking to see if those credentials are appropriate for that server.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">Link hints are assertions made by the party that publishes a link. That party might not control the
+target resource, and there is no mechanism for hint verification other than interacting with the
+resource. Hints are therefore defined as advisory (see <a href="#link_hints" class="auto internal xref">Section 2</a>): the behaviour of the target
+resource always takes precedence, and a client ought to be prepared for any hint to be wrong,
+whether through staleness, error or malice.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="authority-of-hints">
+<section id="section-4.1">
+        <h3 id="name-authority-of-hints">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-authority-of-hints" class="section-name selfRef">Authority of Hints</a>
+        </h3>
+<p id="section-4.1-1">A hint carries the authority of the link's publisher, not of the target. This is most relevant when
+a link in one origin's representation points at another origin. A client ought not to take actions
+with side effects, or with security consequences, on the strength of a hint alone.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">For example, "auth-schemes" and "auth-realms" could be used to coax a client into offering
+credentials to a server that has not asked for them. A client ought to send credentials only in
+response to a challenge from the target resource (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-11" class="relref">Section 11</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), and ought not to treat
+these hints as a substitute for that challenge. Likewise, a "status" of "gone" or "deprecated"
+might lead a client or user to avoid a resource that is in fact available, and "allow" or "formats"
+might lead a user interface to offer operations that the resource will refuse.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">Hints are not access control. A server cannot rely on a client having honoured a hint, and has to
+enforce its policy on every request regardless of what was published. Conversely, the absence of a
+hint says nothing about what the target allows or requires.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="hints-that-vary-by-user">
+<section id="section-4.2">
+        <h3 id="name-hints-that-vary-by-user">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-hints-that-vary-by-user" class="section-name selfRef">Hints That Vary By User</a>
+        </h3>
+<p id="section-4.2-1">As noted in <a href="#link_hints" class="auto internal xref">Section 2</a>, hints in a user-specific representation are themselves user-specific.
+Hints such as "allow" and "precondition-req" reveal what that user is able to do. If a
+representation containing them can be stored or served to other parties -- for example, by a shared
+cache, or in a catalogue of links assembled for many users -- those hints can be exposed to, or
+acted on by, someone they were not generated for. Publishers ought to control caching of such
+representations (<span><a href="https://rfc-editor.org/rfc/rfc9111#section-5.2" class="relref">Section 5.2</a> of [<a href="#HTTP-CACHING" class="cite xref">HTTP-CACHING</a>]</span>), and avoid placing user-specific hints in
+representations that are shared.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">Publishers can also disclose through hints what the target would reveal only to authenticated
+clients, such as the methods or formats of a resource whose existence is otherwise confidential.
+They ought to consider whether everyone who can see the link is entitled to know what its hints say.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="stale-hints">
+<section id="section-4.3">
+        <h3 id="name-stale-hints">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-stale-hints" class="section-name selfRef">Stale Hints</a>
+        </h3>
+<p id="section-4.3-1">A hint can be out of date as soon as it is published. Where a hint and the target's actual
+behaviour disagree, a client ought to treat the hint as the one that is wrong.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1538,20 +1596,20 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
         <h3 id="name-http-link-hint-registry">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-http-link-hint-registry" class="section-name selfRef">HTTP Link Hint Registry</a>
         </h3>
-<p id="section-5.1-1">This specification defines the HTTP Link Hint Registry. See <a href="#link_hints" class="auto internal xref">Section 2</a> for a general description of the function of link hints.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">Link hints are generic; that is, they are potentially applicable to any HTTP resource, not specific to one application of HTTP, nor to one particular format. Generally, they ought to be information that would otherwise be discoverable by interacting with the resource.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">This specification defines the HTTP Link Hint Registry. See <a href="#link_hints" class="auto internal xref">Section 2</a> for a general description of the function of HTTP link hints.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">HTTP link hints are generic; that is, they are potentially applicable to any HTTP resource, not specific to one application of HTTP, nor to one particular format. Generally, they ought to be information that would otherwise be discoverable by interacting with the resource.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <p id="section-5.1-3">Hint names MUST be composed of the lowercase letters (a-z), digits (0-9), underscores ("_") and hyphens ("-"), and MUST begin with a lowercase letter.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.1-4">Hint content MUST be described using valid combinations of the following types defined by HTTP Structured Fields (<span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>):<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.1-5.1">
-            <p id="section-5.1-5.1.1">Inner List (<span><a href="https://rfc-editor.org/rfc/rfc9651#section-3.1.2" class="relref">Section 3.1.2</a> of [<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)<a href="#section-5.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-5.1.1">Inner List (<span><a href="https://rfc-editor.org/rfc/rfc9651#section-3.1.1" class="relref">Section 3.1.1</a> of [<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)<a href="#section-5.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-5.2">
             <p id="section-5.1-5.2.1">Item (<span><a href="https://rfc-editor.org/rfc/rfc9651#section-3.3" class="relref">Section 3.3</a> of [<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)<a href="#section-5.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.1-6">Hint semantics SHOULD be described in terms of the framework defined in <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span>.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
-<p id="section-5.1-7">New hints are registered using the IETF Review process described in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Registration of new resource hints are to use the following template:<a href="#section-5.1-7" class="pilcrow">¶</a></p>
+<p id="section-5.1-7">New hints are registered using the IETF Review process described in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Registration of new HTTP link hints is to use the following template:<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.1-8.1">
             <p id="section-5.1-8.1.1">Hint Name: [hint name]<a href="#section-5.1-8.1.1" class="pilcrow">¶</a></p>
@@ -1590,17 +1648,9 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
         <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Caching"</span>, <span class="seriesInfo">STD 98</span>, <span class="seriesInfo">RFC 9111</span>, <span class="seriesInfo">DOI 10.17487/RFC9111</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9111">https://www.rfc-editor.org/rfc/rfc9111</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="JSON">[JSON]</dt>
-        <dd>
-<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8259">https://www.rfc-editor.org/rfc/rfc8259</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC6585">[RFC6585]</dt>
-        <dd>
-<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">R. Fielding</span>, <span class="refTitle">"Additional HTTP Status Codes"</span>, <span class="seriesInfo">RFC 6585</span>, <span class="seriesInfo">DOI 10.17487/RFC6585</span>, <time datetime="2012-04" class="refDate">April 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6585">https://www.rfc-editor.org/rfc/rfc6585</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7240">[RFC7240]</dt>
         <dd>
@@ -1613,10 +1663,6 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
 <dt id="STRUCTURED-FIELDS">[STRUCTURED-FIELDS]</dt>
         <dd>
 <span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 9651</span>, <span class="seriesInfo">DOI 10.17487/RFC9651</span>, <time datetime="2024-09" class="refDate">September 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9651">https://www.rfc-editor.org/rfc/rfc9651</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="URI">[URI]</dt>
-        <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="WEB-LINKING">[WEB-LINKING]</dt>
       <dd>
@@ -1637,7 +1683,11 @@ equivalent to the Accept-Query HTTP response header.<a href="#section-3.5-1.2.1"
 <dd class="break"></dd>
 <dt id="QUERY">[QUERY]</dt>
         <dd>
-<span class="refAuthor">Reschke, J.</span>, <span class="refAuthor">Snell, J. M.</span>, and <span class="refAuthor">M. Bishop</span>, <span class="refTitle">"The HTTP QUERY Method"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-safe-method-w-body-11</span>, <time datetime="2025-05-19" class="refDate">19 May 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-safe-method-w-body-11">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-safe-method-w-body-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Reschke, J.</span>, <span class="refAuthor">Snell, J.M.</span>, and <span class="refAuthor">M. Bishop</span>, <span class="refTitle">"The HTTP QUERY Method"</span>, <span class="seriesInfo">RFC 10008</span>, <span class="seriesInfo">DOI 10.17487/RFC10008</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc10008">https://www.rfc-editor.org/rfc/rfc10008</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6585">[RFC6585]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">R. Fielding</span>, <span class="refTitle">"Additional HTTP Status Codes"</span>, <span class="seriesInfo">RFC 6585</span>, <span class="seriesInfo">DOI 10.17487/RFC6585</span>, <time datetime="2012-04" class="refDate">April 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6585">https://www.rfc-editor.org/rfc/rfc6585</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8126">[RFC8126]</dt>
       <dd>

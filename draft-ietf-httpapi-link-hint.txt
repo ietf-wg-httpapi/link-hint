@@ -3,9 +3,9 @@
 
 
 Network Working Group                                      M. Nottingham
-Internet-Draft                                            11 August 2025
+Internet-Draft                                           3 November 2026
 Intended status: Standards Track                                        
-Expires: 12 February 2026
+Expires: 7 May 2027
 
 
                             HTTP Link Hints
@@ -32,7 +32,7 @@ About This Document
    Subscribe at https://www.ietf.org/mailman/listinfo/httpapi/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/ietf-wg-httpapi/link-lint.
+   https://github.com/ietf-wg-httpapi/link-hint.
 
 Status of This Memo
 
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 February 2026.
+   This Internet-Draft will expire on 7 May 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -83,6 +83,9 @@ Table of Contents
      3.10. auth-realms
      3.11. status
    4.  Security Considerations
+     4.1.  Authority of Hints
+     4.2.  Hints That Vary By User
+     4.3.  Stale Hints
    5.  IANA Considerations
      5.1.  HTTP Link Hint Registry
    6.  References
@@ -97,7 +100,7 @@ Table of Contents
    resource by interacting with it.  For example, the methods supported
    by a resource can be learned by examining the Allow header field in
    responses from it, and the need for authentication is conveyed with a
-   401 (Authentication Required) status code.
+   401 (Unauthorized) status code.
 
    Often, it can be beneficial to know this information before
    interacting with the resource; not only can such knowledge save time
@@ -147,24 +150,27 @@ Table of Contents
 
 2.  HTTP Link Hints
 
-   A HTTP link hint is a (key, value) tuple that describes the target
-   resource of a Web link [WEB-LINKING], or describes the link itself.
-   The value's canonical form is expressed in subset of the data types
-   defined by HTTP Structured Fields [STRUCTURED-FIELDS].
+   An HTTP link hint is a (key, value) tuple that either describes the
+   target resource of a Web link [WEB-LINKING] to a HTTP or HTTPS
+   resource, or describes such a link itself.  The value's content model
+   is expressed in a subset of the data types defined by HTTP Structured
+   Fields [STRUCTURED-FIELDS].  Recipients MUST ignore hints that do not
+   conform to their defined content model.
 
-   Typically, link hints are serialised in links as target attributes
-   (Section 3.4.1 of [WEB-LINKING]).  In the Link HTTP Header, this can
-   be done by serialising those attributes as strings.  In other link
-   formats, this requires a mapping from the canonical data model into
-   the constraints of that format.
+   Typically, HTTP link hints are serialised in links as target
+   attributes (Section 3.4.1 of [WEB-LINKING]).  In the Link HTTP
+   Header, this can be done by serialising those attributes as strings.
+   In other link formats, this requires a mapping from the content model
+   into the constraints of that format.
 
-   The information in a link hint SHOULD NOT be considered valid for
-   longer than the freshness lifetime (Section 4.2 of [HTTP-CACHING]) of
-   the representation that the link occurred within, and in some cases,
-   it might be valid for a considerably shorter period.
+   The information in a hint SHOULD NOT be considered valid for longer
+   than the freshness lifetime (Section 4.2 of [HTTP-CACHING], including
+   both explicit and heuristic freshness) of the representation that the
+   link occurred within, and in some cases, it might be valid for a
+   considerably shorter period.
 
-   Likewise, the information in a link hint is specific to the link it
-   is attached to.  This means that if a representation is specific to a
+   Likewise, the information in a hint is specific to the link it is
+   attached to.  This means that if a representation is specific to a
    particular user, the hints on links in that representation are also
    specific to that user.
 
@@ -182,8 +188,8 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, containing HTTP methods
-   (Section 9 of [HTTP]).
+   Each String in the Inner List is a HTTP method (Section 9 of [HTTP]);
+   unrecognised values MUST be ignored by recipients.
 
 3.2.  formats
 
@@ -197,8 +203,8 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, containing media types
-   (Section 8.3.1 of [HTTP]).
+   Each String in the Inner List is a media type (Section 8.3.1 of
+   [HTTP]); unrecognised values MUST be ignored by recipients.
 
 3.3.  accept-post
 
@@ -211,8 +217,8 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, with the same constraints
-   as for "formats".
+   Each String in the Inner List is a media type (Section 8.3.1 of
+   [HTTP]); unrecognised values MUST be ignored by recipients.
 
    When this hint is present, "POST" SHOULD be listed in the "allow"
    hint when present.
@@ -229,30 +235,30 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, containing media types
-   (Section 8.3.1 of [HTTP]) that identify the acceptable patch formats
-   (see [PATCH]).
+   Each String in the Inner List is a media type (Section 8.3.1 of
+   [HTTP]) that identifies an acceptable patch format (see [PATCH]);
+   unrecognised values MUST be ignored by recipients.
 
    When this hint is present, "PATCH" SHOULD be listed in the "allow"
    hint, when it is present.
 
 3.5.  accept-query
 
-   *  Hint name: accept-query
+   *  Hint Name: accept-query
 
    *  Description: Hints the QUERY [QUERY] request format(s) that the
       target resource can consume; equivalent to the Accept-Query HTTP
       response header.
 
-   *  Content Model: Inner List (of Strings)
+   *  Content Model: Inner List of Strings
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, containing media types
-   (Section 8.3.1 of [HTTP]) that identify the acceptable query formats
-   (see [QUERY]).
+   Each String in the Inner List is a media type (Section 8.3.1 of
+   [HTTP]) that identifies an acceptable query format (see [QUERY]);
+   unrecognised values MUST be ignored by recipients.
 
-   When this hint is present, "QUERY" SHOLD be listed in the "allow"
+   When this hint is present, "QUERY" SHOULD be listed in the "allow"
    hint, when it is present.
 
 3.6.  accept-ranges
@@ -267,8 +273,8 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, containing HTTP ranges-
-   specifiers (Section 14.1.1 of [HTTP]).
+   Each String in the Inner List is a range-unit (Section 14.1 of
+   [HTTP]); unrecognised values MUST be ignored by recipients.
 
 3.7.  accept-prefer
 
@@ -281,9 +287,9 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, containing preferences
-   (Section 2 of [RFC7240]).  Note that, by its nature, a preference can
-   be ignored by the server.
+   Each String in the Inner List is a preference (Section 2 of
+   [RFC7240]); unrecognised values MUST be ignored by recipients.  Note
+   that, by its nature, a preference can be ignored by the server.
 
 3.8.  precondition-req
 
@@ -298,8 +304,9 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, with possible values "etag"
-   and "last-modified" indicating type of precondition expected.
+   Possible values for the String are "etag" and "last-modified",
+   indicating type of precondition expected.  Other values MUST be
+   ignored by recipients.
 
    See also the 428 Precondition Required status code ([RFC6585]).
 
@@ -315,8 +322,9 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, each corresponding to a
-   HTTP authentication scheme (Section 11.1 of [HTTP]).
+   Each String in the Inner List is an HTTP authentication scheme
+   (Section 11.1 of [HTTP]); unrecognised values MUST be ignored by
+   recipients.
 
 3.10.  auth-realms
 
@@ -326,12 +334,13 @@ Table of Contents
       schemes that support them in the HTTP Authentication framework
       Section 11 of [HTTP].
 
-   *  Content Model: Inner List (of Strings)
+   *  Content Model: Inner List of Strings
 
    *  Specification: [this document]
 
-   Content MUST be an Inner List of Strings, each indicating a
-   protection space that the resource is a member of.
+   Each String in the Inner List identifies a protection space that the
+   resource is a member of; unrecognised values MUST be ignored by
+   recipients.
 
 3.11.  status
 
@@ -343,7 +352,7 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Content MUST be a Token; possible values are:
+   Possible values are:
 
    *  deprecated - indicates that use of the resource is not
       recommended, but it is still available.
@@ -351,22 +360,75 @@ Table of Contents
    *  gone - indicates that the resource is no longer available; i.e.,
       it will return a 410 (Gone) HTTP status code if accessed.
 
+   Unrecognised Tokens MUST be ignored by recipients.
+
 4.  Security Considerations
 
-   Clients need to exercise care when using hints.  For example, a naive
-   client might send credentials to a server that uses the auth-req
-   hint, without checking to see if those credentials are appropriate
-   for that server.
+   Link hints are assertions made by the party that publishes a link.
+   That party might not control the target resource, and there is no
+   mechanism for hint verification other than interacting with the
+   resource.  Hints are therefore defined as advisory (see Section 2):
+   the behaviour of the target resource always takes precedence, and a
+   client ought to be prepared for any hint to be wrong, whether through
+   staleness, error or malice.
+
+4.1.  Authority of Hints
+
+   A hint carries the authority of the link's publisher, not of the
+   target.  This is most relevant when a link in one origin's
+   representation points at another origin.  A client ought not to take
+   actions with side effects, or with security consequences, on the
+   strength of a hint alone.
+
+   For example, "auth-schemes" and "auth-realms" could be used to coax a
+   client into offering credentials to a server that has not asked for
+   them.  A client ought to send credentials only in response to a
+   challenge from the target resource (Section 11 of [HTTP]), and ought
+   not to treat these hints as a substitute for that challenge.
+   Likewise, a "status" of "gone" or "deprecated" might lead a client or
+   user to avoid a resource that is in fact available, and "allow" or
+   "formats" might lead a user interface to offer operations that the
+   resource will refuse.
+
+   Hints are not access control.  A server cannot rely on a client
+   having honoured a hint, and has to enforce its policy on every
+   request regardless of what was published.  Conversely, the absence of
+   a hint says nothing about what the target allows or requires.
+
+4.2.  Hints That Vary By User
+
+   As noted in Section 2, hints in a user-specific representation are
+   themselves user-specific.  Hints such as "allow" and "precondition-
+   req" reveal what that user is able to do.  If a representation
+   containing them can be stored or served to other parties -- for
+   example, by a shared cache, or in a catalogue of links assembled for
+   many users -- those hints can be exposed to, or acted on by, someone
+   they were not generated for.  Publishers ought to control caching of
+   such representations (Section 5.2 of [HTTP-CACHING]), and avoid
+   placing user-specific hints in representations that are shared.
+
+   Publishers can also disclose through hints what the target would
+   reveal only to authenticated clients, such as the methods or formats
+   of a resource whose existence is otherwise confidential.  They ought
+   to consider whether everyone who can see the link is entitled to know
+   what its hints say.
+
+4.3.  Stale Hints
+
+   A hint can be out of date as soon as it is published.  Where a hint
+   and the target's actual behaviour disagree, a client ought to treat
+   the hint as the one that is wrong.
 
 5.  IANA Considerations
 
 5.1.  HTTP Link Hint Registry
 
    This specification defines the HTTP Link Hint Registry.  See
-   Section 2 for a general description of the function of link hints.
+   Section 2 for a general description of the function of HTTP link
+   hints.
 
-   Link hints are generic; that is, they are potentially applicable to
-   any HTTP resource, not specific to one application of HTTP, nor to
+   HTTP link hints are generic; that is, they are potentially applicable
+   to any HTTP resource, not specific to one application of HTTP, nor to
    one particular format.  Generally, they ought to be information that
    would otherwise be discoverable by interacting with the resource.
 
@@ -378,7 +440,7 @@ Table of Contents
    following types defined by HTTP Structured Fields
    ([STRUCTURED-FIELDS]):
 
-   *  Inner List (Section 3.1.2 of [STRUCTURED-FIELDS])
+   *  Inner List (Section 3.1.1 of [STRUCTURED-FIELDS])
 
    *  Item (Section 3.3 of [STRUCTURED-FIELDS])
 
@@ -386,7 +448,7 @@ Table of Contents
    in [WEB-LINKING].
 
    New hints are registered using the IETF Review process described in
-   [RFC8126].  Registration of new resource hints are to use the
+   [RFC8126].  Registration of new HTTP link hints is to use the
    following template:
 
    *  Hint Name: [hint name]
@@ -416,19 +478,10 @@ Table of Contents
               DOI 10.17487/RFC9111, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9111>.
 
-   [JSON]     Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", STD 90, RFC 8259,
-              DOI 10.17487/RFC8259, December 2017,
-              <https://www.rfc-editor.org/rfc/rfc8259>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
-
-   [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
-              Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
-              <https://www.rfc-editor.org/rfc/rfc6585>.
 
    [RFC7240]  Snell, J., "Prefer Header for HTTP", RFC 7240,
               DOI 10.17487/RFC7240, June 2014,
@@ -443,11 +496,6 @@ Table of Contents
               HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9651>.
 
-   [URI]      Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
-              Resource Identifier (URI): Generic Syntax", STD 66,
-              RFC 3986, DOI 10.17487/RFC3986, January 2005,
-              <https://www.rfc-editor.org/rfc/rfc3986>.
-
    [WEB-LINKING]
               Nottingham, M., "Web Linking", RFC 8288,
               DOI 10.17487/RFC8288, October 2017,
@@ -459,11 +507,13 @@ Table of Contents
               RFC 5789, DOI 10.17487/RFC5789, March 2010,
               <https://www.rfc-editor.org/rfc/rfc5789>.
 
-   [QUERY]    Reschke, J., Snell, J. M., and M. Bishop, "The HTTP QUERY
-              Method", Work in Progress, Internet-Draft, draft-ietf-
-              httpbis-safe-method-w-body-11, 19 May 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              safe-method-w-body-11>.
+   [QUERY]    Reschke, J., Snell, J.M., and M. Bishop, "The HTTP QUERY
+              Method", RFC 10008, DOI 10.17487/RFC10008, June 2026,
+              <https://www.rfc-editor.org/rfc/rfc10008>.
+
+   [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
+              Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
+              <https://www.rfc-editor.org/rfc/rfc6585>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
