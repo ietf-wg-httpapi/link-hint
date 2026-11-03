@@ -17,7 +17,7 @@ venue:
   type: "Working Group"
   mail: "httpapi@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/httpapi/"
-  github: "ietf-wg-httpapi/link-lint"
+  github: "ietf-wg-httpapi/link-hint"
   latest: "https://ietf-wg-httpapi.github.io/link-hint/draft-ietf-httpapi-link-hint.html"
 
 author:
@@ -32,13 +32,11 @@ normative:
   HTTP: RFC9110
   HTTP-CACHING: RFC9111
   WEB-LINKING: RFC8288
-  JSON: RFC8259
-  URI: RFC3986
   STRUCTURED-FIELDS: RFC9651
 
 informative:
   PATCH: RFC5789
-  QUERY: I-D.ietf-httpbis-safe-method-w-body
+  QUERY: RFC10008
 
 
 --- abstract
@@ -50,7 +48,7 @@ This memo specifies "HTTP Link Hints", a mechanism for annotating Web links to H
 
 # Introduction
 
-HTTP {{HTTP}} clients can discover a variety of information about a resource by interacting with it. For example, the methods supported by a resource can be learned by examining the Allow header field in responses from it, and the need for authentication is conveyed with a 401 (Authentication Required) status code.
+HTTP {{HTTP}} clients can discover a variety of information about a resource by interacting with it. For example, the methods supported by a resource can be learned by examining the Allow header field in responses from it, and the need for authentication is conveyed with a 401 (Unauthorized) status code.
 
 Often, it can be beneficial to know this information before interacting with the resource; not only can such knowledge save time (through reduced round trips), but it can also influence the choices made by the code or user driving the interaction. For example, a user interface that presents the data from an HTTP-based API might need to know which resources the user has write access to, so that it can present the appropriate interface.
 
@@ -71,13 +69,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # HTTP Link Hints {#link_hints}
 
-A HTTP link hint is a (key, value) tuple that describes the target resource of a Web link {{WEB-LINKING}}, or describes the link itself. The value's canonical form is expressed in subset of the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}}.
+An HTTP link hint is a (key, value) tuple that either describes the target resource of a Web link {{WEB-LINKING}} to a HTTP or HTTPS resource, or describes such a link itself. The value's canonical form is expressed in a subset of the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}}.
 
-Typically, link hints are serialised in links as target attributes ({{Section 3.4.1 of WEB-LINKING}}). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the canonical data model into the constraints of that format.
+Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4.1 of WEB-LINKING}}). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the canonical data model into the constraints of that format.
 
-The information in a link hint SHOULD NOT be considered valid for longer than the freshness lifetime ({{Section 4.2 of HTTP-CACHING}}) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.
+The information in a hint SHOULD NOT be considered valid for longer than the freshness lifetime ({{Section 4.2 of HTTP-CACHING}}) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.
 
-Likewise, the information in a link hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.
+Likewise, the information in a hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.
 
 
 
@@ -125,15 +123,15 @@ When this hint is present, "PATCH" SHOULD be listed in the "allow" hint, when it
 
 ## accept-query
 
-* Hint name: accept-query
+* Hint Name: accept-query
 * Description: Hints the QUERY {{QUERY}} request format(s) that the target resource can consume;
   equivalent to the Accept-Query HTTP response header.
-* Content Model: Inner List (of Strings)
+* Content Model: Inner List of Strings
 * Specification: \[this document]
 
 Content MUST be an Inner List of Strings, containing media types ({{Section 8.3.1 of HTTP}}) that identify the acceptable query formats (see {{QUERY}}).
 
-When this hint is present, "QUERY" SHOLD be listed in the "allow" hint, when it is present.
+When this hint is present, "QUERY" SHOULD be listed in the "allow" hint, when it is present.
 
 ## accept-ranges
 
@@ -171,13 +169,13 @@ See also the 428 Precondition Required status code ({{!RFC6585}}).
 * Content Model: Inner List of Strings
 * Specification: \[this document]
 
-Content MUST be an Inner List of Strings, each corresponding to a HTTP authentication scheme ({{Section 11.1 of HTTP}}).
+Content MUST be an Inner List of Strings, each corresponding to an HTTP authentication scheme ({{Section 11.1 of HTTP}}).
 
 ## auth-realms
 
 * Hint Name: auth-realms
 * Description: Hints the authentication realm(s) available for those schemes that support them in the HTTP Authentication framework {{Section 11 of HTTP}}.
-* Content Model: Inner List (of Strings)
+* Content Model: Inner List of Strings
 * Specification: \[this document]
 
 Content MUST be an Inner List of Strings, each indicating a protection space that the resource is a member of.
@@ -204,20 +202,20 @@ Clients need to exercise care when using hints. For example, a naive client migh
 
 ## HTTP Link Hint Registry {#hint_registry}
 
-This specification defines the HTTP Link Hint Registry. See {{link_hints}} for a general description of the function of link hints.
+This specification defines the HTTP Link Hint Registry. See {{link_hints}} for a general description of the function of HTTP link hints.
 
-Link hints are generic; that is, they are potentially applicable to any HTTP resource, not specific to one application of HTTP, nor to one particular format. Generally, they ought to be information that would otherwise be discoverable by interacting with the resource.
+HTTP link hints are generic; that is, they are potentially applicable to any HTTP resource, not specific to one application of HTTP, nor to one particular format. Generally, they ought to be information that would otherwise be discoverable by interacting with the resource.
 
 Hint names MUST be composed of the lowercase letters (a-z), digits (0-9), underscores ("_") and hyphens ("-"), and MUST begin with a lowercase letter.
 
 Hint content MUST be described using valid combinations of the following types defined by HTTP Structured Fields ({{STRUCTURED-FIELDS}}):
 
-* Inner List ({{Section 3.1.2 of STRUCTURED-FIELDS}})
+* Inner List ({{Section 3.1.1 of STRUCTURED-FIELDS}})
 * Item ({{Section 3.3 of STRUCTURED-FIELDS}})
 
 Hint semantics SHOULD be described in terms of the framework defined in {{WEB-LINKING}}.
 
-New hints are registered using the IETF Review process described in {{?RFC8126}}. Registration of new resource hints are to use the following template:
+New hints are registered using the IETF Review process described in {{?RFC8126}}. Registration of new HTTP link hints is to use the following template:
 
 * Hint Name: \[hint name]
 * Description: \[a short description of the hint's semantics]
