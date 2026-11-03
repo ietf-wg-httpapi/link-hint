@@ -160,7 +160,7 @@ Content MUST be an Inner List of Strings, containing preferences ({{Section 2 of
 
 Content MUST be an Inner List of Strings, with possible values "etag" and "last-modified" indicating type of precondition expected.
 
-See also the 428 Precondition Required status code ({{!RFC6585}}).
+See also the 428 Precondition Required status code ({{?RFC6585}}).
 
 ## auth-schemes
 
