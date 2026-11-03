@@ -73,7 +73,7 @@ An HTTP link hint is a (key, value) tuple that either describes the target resou
 
 Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4.1 of WEB-LINKING}}). In the Link HTTP Header, this can be done by serialising those attributes as strings. In other link formats, this requires a mapping from the content model into the constraints of that format.
 
-The information in a hint SHOULD NOT be considered valid for longer than the freshness lifetime ({{Section 4.2 of HTTP-CACHING}}) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.
+The information in a hint SHOULD NOT be considered valid for longer than the freshness lifetime ({{Section 4.2 of HTTP-CACHING}}, including both explicit and heuristic freshness) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.
 
 Likewise, the information in a hint is specific to the link it is attached to. This means that if a representation is specific to a particular user, the hints on links in that representation are also specific to that user.
 
