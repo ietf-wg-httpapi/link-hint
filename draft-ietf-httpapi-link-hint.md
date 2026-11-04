@@ -68,7 +68,7 @@ Finally, these hints are not universally applicable to all links. {{Section 2.2 
 
 # HTTP Link Hints {#link_hints}
 
-An HTTP link hint is a (name, value) tuple that describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource. The value's content model is either a String or a List of Strings ({{values}}). Recipients MUST ignore hints that do not conform to their defined content model.
+An HTTP link hint is a (name, value) tuple that describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource. The value's content model is either a String or a List of Strings ({{values}}). Recipients MUST ignore hints they do not recognise, and hints that do not conform to their defined content model.
 
 Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4 of WEB-LINKING}}). {{link-header}} defines how for the Link HTTP header field; other link formats need to map the content model onto the constraints of that format ({{other-serialisations}}).
 
@@ -82,12 +82,16 @@ A String is a sequence of zero or more printable ASCII characters (%x20-7E). A L
 
 Strings are limited to printable ASCII. A hint that needs other characters has to define how they are encoded within a String.
 
+Unless the definition of a hint says otherwise, a String is compared as the HTTP protocol element it represents is: method names case-sensitively ({{Section 9.1 of HTTP}}), and authentication scheme names ({{Section 11.1 of HTTP}}) and range units ({{Section 14.1 of HTTP}}) case-insensitively.
+
 
 ## Link Header Field Serialisation {#link-header}
 
 In a Link header field ({{Section 3 of WEB-LINKING}}), a link hint is a target attribute: a link-param whose name is the hint name. This section defines how hints are serialised; it does not by itself make them applicable to every link (see {{intro}}).
 
 A String is the value of one link-param. If it is valid as a `token` ({{Section 5.6.2 of HTTP}}), it can be sent as one. Otherwise it MUST be sent as a `quoted-string` ({{Section 5.6.4 of HTTP}}), with each `"` and `\` preceded by a backslash. Recipients parse both forms and treat them identically, as {{Section 3 of WEB-LINKING}} requires; the String is the value after any unquoting.
+
+Hint names are compared case-insensitively, as {{Section 2.2 of WEB-LINKING}} requires; registered names are lowercase. A link-param without a value ({{Section 3 of WEB-LINKING}}), or whose value after unquoting contains anything other than printable ASCII, does not convey a String.
 
 Note that `/` and `:` are not token characters in HTTP, so most media types need a quoted-string even without parameters.
 
@@ -200,7 +204,7 @@ Each String in the List is a preference ({{Section 2 of RFC7240}}); unrecognised
 * Content Model: List of Strings
 * Specification: \[this document]
 
-Possible values for each String are "etag" and "last-modified", indicating type of precondition expected. Other values MUST be ignored by recipients.
+Possible values for each String are "etag" and "last-modified", indicating type of precondition expected; they are compared case-sensitively. Other values MUST be ignored by recipients.
 
 See also the 428 Precondition Required status code ({{?RFC6585}}).
 
@@ -220,7 +224,7 @@ Each String in the List is an HTTP authentication scheme ({{Section 11.1 of HTTP
 * Content Model: List of Strings
 * Specification: \[this document]
 
-Each String in the List identifies a protection space that the resource is a member of; unrecognised values MUST be ignored by recipients.
+Each String in the List identifies a protection space that the resource is a member of; unrecognised values MUST be ignored by recipients. A realm that cannot be represented as a String, because it contains characters outside printable ASCII, is not conveyed.
 
 ## status
 
