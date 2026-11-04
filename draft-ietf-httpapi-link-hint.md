@@ -154,7 +154,7 @@ Each String in the List is a media type ({{Section 8.3.1 of HTTP}}); unrecognise
 
 Each String in the List is a media type ({{Section 8.3.1 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
-When this hint is present, "POST" SHOULD be listed in the "allow" hint when present.
+When this hint is present, "POST" SHOULD be listed in the "allow" hint when it is present.
 
 ## accept-patch
 
