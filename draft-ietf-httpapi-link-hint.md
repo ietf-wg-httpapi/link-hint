@@ -224,7 +224,7 @@ Each String in the List is an HTTP authentication scheme ({{Section 11.1 of HTTP
 * Content Model: List of Strings
 * Specification: \[this document]
 
-Each String in the List identifies a protection space that the resource is a member of; unrecognised values MUST be ignored by recipients. A realm that cannot be represented as a String, because it contains characters outside printable ASCII, is not conveyed.
+Each String in the List is a realm value ({{Section 11.5 of HTTP}}); together with the origin of the target resource, it identifies a protection space that the resource is a member of. The hint does not associate realms with authentication schemes; a client learns that from the challenges the target sends. A realm that cannot be represented as a String, because it contains characters outside printable ASCII, is not conveyed.
 
 ## status
 
