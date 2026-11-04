@@ -71,7 +71,7 @@ ALPHA, DIGIT, and SP rules).
 
 # HTTP Link Hints {#link_hints}
 
-An HTTP link hint is a (name, value) tuple that either describes the target resource of a Web link {{WEB-LINKING}} to a HTTP or HTTPS resource, or describes such a link itself. The value's content model is either a String or a List of Strings ({{values}}), drawn from the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}} but with a textual form of its own. Recipients MUST ignore hints that do not conform to their defined content model.
+An HTTP link hint is a (name, value) tuple that either describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource, or describes such a link itself. The value's content model is either a String or a List of Strings ({{values}}), drawn from the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}} but with a textual form of its own. Recipients MUST ignore hints that do not conform to their defined content model.
 
 Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4 of WEB-LINKING}}). {{values}} defines a textual form for hint values that serialisations can use as it stands; {{link-header}} applies it to the Link HTTP header field. Other link formats can reference it, or map the content model onto the constraints of that format ({{other-serialisations}}).
 
@@ -144,7 +144,7 @@ This specification does not define mappings for other link serialisations. A ser
 * Content Model: List of Strings
 * Specification: \[this document]
 
-Each String in the List is a HTTP method ({{Section 9 of HTTP}}); unrecognised values MUST be ignored by recipients.
+Each String in the List is an HTTP method ({{Section 9 of HTTP}}); unrecognised values MUST be ignored by recipients.
 
 ## formats
 
