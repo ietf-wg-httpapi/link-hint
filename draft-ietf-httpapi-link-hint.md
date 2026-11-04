@@ -60,7 +60,7 @@ More fine-grained information might also be gathered by interacting with the res
 
 Hints are conveyed with a link by its serialisation. This specification defines how for the Link HTTP header field ({{link-header}}); other serialisations define their own ({{other-serialisations}}).
 
-Finally, these hints are not universally applicable to all links. {{Section 2.2 of WEB-LINKING}} specifies that the name space of target attributes for a given link is defined by both the link relation in use, and by the serialisation in use. Therefore, to be used in a given link, these hints need to be explicitly specified by either the link relation type or the serialisation (e.g., by referencing this specification).
+Finally, these hints are not universally applicable to all links. {{Section 2.2 of WEB-LINKING}} specifies that target attributes can be defined by link relation types and by serialisations. Therefore, to be used in a given link, these hints need to be explicitly specified by either the link relation type or the serialisation in use (e.g., by referencing this specification).
 
 ## Notational Conventions
 
@@ -115,7 +115,7 @@ For example:
 
 ~~~ http-message
 Link: </widgets/1>; rel="item";
-      allow="GET, PUT";
+      allow="GET, PATCH, POST";
       accept-patch="application/merge-patch+json";
       accept-post="application/json, 'text/plain; charset=utf-8'";
       auth-schemes=Bearer;
@@ -132,7 +132,7 @@ Link: </widgets/1>; rel="item";
 
 ## Other Serialisations {#other-serialisations}
 
-This specification does not define mappings for other link serialisations. A serialisation with text-valued attributes (e.g., an XML-based one) can carry the textual form as the attribute value. A serialisation with a structured data model (e.g., JSON) can carry a String as a string and a List as an array of strings.
+This specification does not define mappings for other link serialisations. A serialisation with text-valued attributes (e.g., an XML-based one) might carry the textual form as the attribute value. A serialisation with a structured data model might carry a String as a string and a List as an array of strings.
 
 
 # Pre-Defined HTTP Link Hints {#hints}
@@ -266,11 +266,15 @@ a link in one origin's representation points at another origin. A client ought n
 with side effects, or with security consequences, on the strength of a hint alone.
 
 For example, "auth-schemes" and "auth-realms" could be used to coax a client into offering
-credentials to a server that has not asked for them. A client ought to send credentials only in
-response to a challenge from the target resource ({{Section 11 of HTTP}}), and ought not to treat
-these hints as a substitute for that challenge. Likewise, a "status" of "gone" or "deprecated"
-might lead a client or user to avoid a resource that is in fact available, and "allow" or "formats"
-might lead a user interface to offer operations that the resource will refuse.
+credentials to a server that has not asked for them. A client ought not to send credentials to a
+target on the strength of a hint alone, unless they are for a protection space ({{Section 11.5 of
+HTTP}}) that the client already associates with that target. For those, "auth-schemes" can save the
+round trip that a challenge would have cost; for any other, the client waits to be challenged by
+the target ({{Section 11 of HTTP}}).
+
+Likewise, a "status" of "gone" or "deprecated" might lead a client or user to avoid a resource that
+is in fact available, and "allow" or "formats" might lead a user interface to offer operations that
+the resource will refuse.
 
 Hints are not access control. A server cannot rely on a client having honoured a hint, and has to
 enforce its policy on every request regardless of what was published. Conversely, the absence of a
