@@ -109,7 +109,7 @@ If the textual form is valid as a `token` ({{Section 5.6.2 of HTTP}}), it can be
 
 Note that `/` and `:` are not token characters in HTTP, so most media types need a quoted-string even without parameters.
 
-If a hint appears more than once in a link-value, the first occurrence is used and the rest are ignored.
+If a hint appears more than once in a link-value, Recipients MUST use the first occurrence and ignore subsequent ones.
 
 For example:
 
