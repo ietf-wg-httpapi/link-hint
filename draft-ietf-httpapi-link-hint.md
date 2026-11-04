@@ -255,7 +255,7 @@ Unrecognised Strings MUST be ignored by recipients.
 
 Link hints are assertions made by the party that publishes a link. That party might not control the
 target resource, and there is no mechanism for hint verification other than interacting with the
-resource. Hints are therefore defined as advisory (see {{link_hints}}): the behaviour of the target
+resource. Hints are therefore defined as advisory (see {{intro}}): the behaviour of the target
 resource always takes precedence, and a client ought to be prepared for any hint to be wrong,
 whether through staleness, error or malice.
 
