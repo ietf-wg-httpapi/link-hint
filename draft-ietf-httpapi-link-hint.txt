@@ -136,12 +136,11 @@ Table of Contents
    (Section 2.2); other serialisations define their own (Section 2.3).
 
    Finally, these hints are not universally applicable to all links.
-   Section 2.2 of [WEB-LINKING] specifies that the name space of target
-   attributes for a given link is defined by both the link relation in
-   use, and by the serialisation in use.  Therefore, to be used in a
-   given link, these hints need to be explicitly specified by either the
-   link relation type or the serialisation (e.g., by referencing this
-   specification).
+   Section 2.2 of [WEB-LINKING] specifies that target attributes can be
+   defined by link relation types and by serialisations.  Therefore, to
+   be used in a given link, these hints need to be explicitly specified
+   by either the link relation type or the serialisation in use (e.g.,
+   by referencing this specification).
 
 1.1.  Notational Conventions
 
@@ -156,13 +155,13 @@ Table of Contents
 
 2.  HTTP Link Hints
 
-   An HTTP link hint is a (name, value) tuple that either describes the
-   target resource of a Web link [WEB-LINKING] to a HTTP or HTTPS
-   resource, or describes such a link itself.  The value's content model
-   is either a String or a List of Strings (Section 2.1), drawn from the
-   data types defined by HTTP Structured Fields [STRUCTURED-FIELDS] but
-   with a textual form of its own.  Recipients MUST ignore hints that do
-   not conform to their defined content model.
+   An HTTP link hint is a (name, value) tuple that describes the target
+   resource of a Web link [WEB-LINKING] to an HTTP or HTTPS resource.
+   The value's content model is either a String or a List of Strings
+   (Section 2.1), drawn from the data types defined by HTTP Structured
+   Fields [STRUCTURED-FIELDS] but with a textual form of its own.
+   Recipients MUST ignore hints that do not conform to their defined
+   content model.
 
    Typically, HTTP link hints are serialised in links as target
    attributes (Section 3.4 of [WEB-LINKING]).  Section 2.1 defines a
@@ -234,7 +233,7 @@ Table of Contents
    For example:
 
    Link: </widgets/1>; rel="item";
-         allow="GET, PUT";
+         allow="GET, PATCH, POST";
          accept-patch="application/merge-patch+json";
          accept-post="application/json, 'text/plain; charset=utf-8'";
          auth-schemes=Bearer;
@@ -252,8 +251,8 @@ Table of Contents
 
    This specification does not define mappings for other link
    serialisations.  A serialisation with text-valued attributes (e.g.,
-   an XML-based one) can carry the textual form as the attribute value.
-   A serialisation with a structured data model (e.g., JSON) can carry a
+   an XML-based one) might carry the textual form as the attribute
+   value.  A serialisation with a structured data model might carry a
    String as a string and a List as an array of strings.
 
 3.  Pre-Defined HTTP Link Hints
@@ -270,7 +269,7 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Each String in the List is a HTTP method (Section 9 of [HTTP]);
+   Each String in the List is an HTTP method (Section 9 of [HTTP]);
    unrecognised values MUST be ignored by recipients.
 
 3.2.  formats
@@ -279,7 +278,7 @@ Table of Contents
 
    *  Description: Hints the representation type(s) that the target
       resource can produce and consume, using the GET and PUT (if
-      allowed) methods respectively.
+      allowed) methods.
 
    *  Content Model: List of Strings
 
@@ -386,7 +385,7 @@ Table of Contents
 
    *  Specification: [this document]
 
-   Possible values for the String are "etag" and "last-modified",
+   Possible values for each String are "etag" and "last-modified",
    indicating type of precondition expected.  Other values MUST be
    ignored by recipients.
 
@@ -449,7 +448,7 @@ Table of Contents
    Link hints are assertions made by the party that publishes a link.
    That party might not control the target resource, and there is no
    mechanism for hint verification other than interacting with the
-   resource.  Hints are therefore defined as advisory (see Section 2):
+   resource.  Hints are therefore defined as advisory (see Section 1):
    the behaviour of the target resource always takes precedence, and a
    client ought to be prepared for any hint to be wrong, whether through
    staleness, error or malice.
@@ -464,9 +463,13 @@ Table of Contents
 
    For example, "auth-schemes" and "auth-realms" could be used to coax a
    client into offering credentials to a server that has not asked for
-   them.  A client ought to send credentials only in response to a
-   challenge from the target resource (Section 11 of [HTTP]), and ought
-   not to treat these hints as a substitute for that challenge.
+   them.  A client ought not to send credentials to a target on the
+   strength of a hint alone, unless they are for a protection space
+   (Section 11.5 of [HTTP]) that the client already associates with that
+   target.  For those, "auth-schemes" can save the round trip that a
+   challenge would have cost; for any other, the client waits to be
+   challenged by the target (Section 11 of [HTTP]).
+
    Likewise, a "status" of "gone" or "deprecated" might lead a client or
    user to avoid a resource that is in fact available, and "allow" or
    "formats" might lead a user interface to offer operations that the
