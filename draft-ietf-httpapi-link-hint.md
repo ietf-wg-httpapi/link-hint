@@ -36,7 +36,6 @@ normative:
 informative:
   PATCH: RFC5789
   QUERY: RFC10008
-  STRUCTURED-FIELDS: RFC9651
 
 
 --- abstract
@@ -66,14 +65,12 @@ Finally, these hints are not universally applicable to all links. {{Section 2.2 
 
 {::boilerplate bcp14-tagged}
 
-This document uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} (including the
-ALPHA, DIGIT, and SP rules).
 
 # HTTP Link Hints {#link_hints}
 
-An HTTP link hint is a (name, value) tuple that describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource. The value's content model is either a String or a List of Strings ({{values}}), drawn from the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}} but with a textual form of its own. Recipients MUST ignore hints that do not conform to their defined content model.
+An HTTP link hint is a (name, value) tuple that describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource. The value's content model is either a String or a List of Strings ({{values}}). Recipients MUST ignore hints that do not conform to their defined content model.
 
-Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4 of WEB-LINKING}}). {{values}} defines a textual form for hint values that serialisations can use as it stands; {{link-header}} applies it to the Link HTTP header field. Other link formats can reference it, or map the content model onto the constraints of that format ({{other-serialisations}}).
+Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4 of WEB-LINKING}}). {{link-header}} defines how for the Link HTTP header field; other link formats need to map the content model onto the constraints of that format ({{other-serialisations}}).
 
 The information in a hint SHOULD NOT be considered valid for longer than the freshness lifetime ({{Section 4.2 of HTTP-CACHING}}, including both explicit and heuristic freshness) of the representation that the link occurred within, and in some cases, it might be valid for a considerably shorter period.
 
@@ -81,58 +78,47 @@ Likewise, the information in a hint is specific to the link it is attached to. T
 
 ## Hint Values {#values}
 
-This specification defines a simple data model for hint values. A String is a sequence of zero or more printable ASCII characters (%x20-7E). A List is an ordered sequence of zero or more Strings.
+A String is a sequence of zero or more printable ASCII characters (%x20-7E). A List is an ordered sequence of one or more Strings; a hint that would have no members is omitted.
 
-Their textual form is:
-
-~~~ abnf
-hint-value  = [ hint-member *( *SP "," *SP hint-member ) ]
-hint-member = hint-token / hint-string
-hint-token  = ( ALPHA / "*" ) *( hint-tchar / ":" / "/" )
-hint-tchar  = ALPHA / DIGIT / "!" / "#" / "$" / "&" / "*" / "+"
-            / "-" / "." / "^" / "_" / "`" / "|" / "~"
-hint-string = SQUOTE *( hint-char / SQUOTE SQUOTE ) SQUOTE
-hint-char   = %x20-26 / %x28-7E
-SQUOTE      = %x27
-~~~
-
-Strings can take either of two forms: as a bare hint-token (when its content allows), or a `'` delimited hint-string when it does not. hint-strings escape `'` with `''`. No other character is special inside a hint-string; in particular, `"` and `\` are ordinary characters. A hint-token and a hint-string that yield the same characters are the same String, so `GET` and `'GET'` are equivalent.
-
-A List is the sequence of its members. A hint whose content model is a String has exactly one member; a List has any number, including none.
+Strings are limited to printable ASCII. A hint that needs other characters has to define how they are encoded within a String.
 
 
 ## Link Header Field Serialisation {#link-header}
 
-In a Link header field ({{Section 3 of WEB-LINKING}}), a link hint is a target attribute: a link-param whose name is the hint name and whose value is the hint's textual form. This section defines how hints are serialised; it does not by itself make them applicable to every link (see {{intro}}).
+In a Link header field ({{Section 3 of WEB-LINKING}}), a link hint is a target attribute: a link-param whose name is the hint name. This section defines how hints are serialised; it does not by itself make them applicable to every link (see {{intro}}).
 
-If the textual form is valid as a `token` ({{Section 5.6.2 of HTTP}}), it can be sent as one. Otherwise it MUST be sent as a `quoted-string` ({{Section 5.6.4 of HTTP}}), with each `"` and `\` preceded by a backslash. Recipients parse both forms and treat them identically, as {{Section 3 of WEB-LINKING}} requires; the hint-value is the value after any unquoting.
+A String is the value of one link-param. If it is valid as a `token` ({{Section 5.6.2 of HTTP}}), it can be sent as one. Otherwise it MUST be sent as a `quoted-string` ({{Section 5.6.4 of HTTP}}), with each `"` and `\` preceded by a backslash. Recipients parse both forms and treat them identically, as {{Section 3 of WEB-LINKING}} requires; the String is the value after any unquoting.
 
 Note that `/` and `:` are not token characters in HTTP, so most media types need a quoted-string even without parameters.
 
-If a hint appears more than once in a link-value, Recipients MUST use the first occurrence and ignore subsequent ones.
+A List is conveyed by repeating the link-param, once for each member, in order. Members of a List that occur in more than one Link header field line are in the order that the lines were received. A hint whose content model is a String does not conform to it if it occurs more than once in a link-value.
+
+Note that some Link header parsers keep only one occurrence of a repeated parameter, and some mishandle quoted-strings containing `;` or `,`. A recipient built on such a parser can instead read the raw field value and parse it as {{Section 3 of WEB-LINKING}} describes.
 
 For example:
 
 ~~~ http-message
 Link: </widgets/1>; rel="item";
-      allow="GET, PATCH, POST";
+      allow=GET; allow=PATCH; allow=POST;
       accept-patch="application/merge-patch+json";
-      accept-post="application/json, 'text/plain; charset=utf-8'";
+      accept-post="application/json";
+      accept-post="text/plain; charset=utf-8";
       auth-schemes=Bearer;
-      auth-realms="'Bob''s Files', staff";
+      auth-realms="Bob's Files"; auth-realms=staff;
       status=deprecated
 ~~~
 
-Here, the apostrophe in the realm requires doubling, but nothing needs a backslash. Only a `"` or `\` in the content does, and then only once, at the Link layer:
+A `"` or `\` in a String is escaped once, at the Link layer:
 
 ~~~ http-message
 Link: </widgets/1>; rel="item";
-      accept-post="'application/x; profile=\"https://example.net/p\"'"
+      accept-post="application/x; profile=\"https://example.net/p\""
 ~~~
+
 
 ## Other Serialisations {#other-serialisations}
 
-This specification does not define mappings for other link serialisations. A serialisation with text-valued attributes (e.g., an XML-based one) might carry the textual form as the attribute value. A serialisation with a structured data model might carry a String as a string and a List as an array of strings.
+This specification does not define mappings for other link serialisations. One that can repeat an attribute can carry a List as the Link header field does, one attribute per member. One with a structured data model might carry a String as a string and a List as an array of strings; in Linkset JSON ({{?RFC9264}}), where every extension attribute is an array of strings, each member is one array element. One that cannot repeat an attribute (XML attributes, for example) needs another mapping, such as one child element per member.
 
 
 # Pre-Defined HTTP Link Hints {#hints}
@@ -169,7 +155,7 @@ When this hint is present, "POST" SHOULD be listed in the "allow" hint when pres
 ## accept-patch
 
 * Hint Name: accept-patch
-* Description: Hints the PATCH {{PATCH}} request format(s) that the target resource can consume; equivalent to the Accept-Patch HTTP response header.
+* Description: Hints the PATCH {{PATCH}} request format(s) that the target resource can consume; similar to the Accept-Patch HTTP response header.
 * Content Model: List of Strings
 * Specification: \[this document]
 
@@ -181,7 +167,7 @@ When this hint is present, "PATCH" SHOULD be listed in the "allow" hint, when it
 
 * Hint Name: accept-query
 * Description: Hints the QUERY {{QUERY}} request format(s) that the target resource can consume;
-  equivalent to the Accept-Query HTTP response header.
+  similar to the Accept-Query HTTP response header.
 * Content Model: List of Strings
 * Specification: \[this document]
 
