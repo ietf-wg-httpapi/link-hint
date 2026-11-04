@@ -140,7 +140,7 @@ This specification does not define mappings for other link serialisations. A ser
 ## allow
 
 * Hint Name: allow
-* Description: Hints the HTTP methods that can be used to interact with the target resource; equivalent to the Allow HTTP response header.
+* Description: Hints the HTTP methods that can be used to interact with the target resource; similar to the Allow HTTP header field.
 * Content Model: List of Strings
 * Specification: \[this document]
 
@@ -192,7 +192,7 @@ When this hint is present, "QUERY" SHOULD be listed in the "allow" hint, when it
 ## accept-ranges
 
 * Hint Name: accept-ranges
-* Description: Hints the range-unit(s) available for the target resource; equivalent to the Accept-Ranges HTTP response header {{HTTP}}.
+* Description: Hints the range-unit(s) available for the target resource; similar to the Accept-Ranges HTTP response header {{HTTP}}.
 * Content Model: List of Strings
 * Specification: \[this document]
 
