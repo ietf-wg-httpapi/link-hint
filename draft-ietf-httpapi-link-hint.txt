@@ -3,9 +3,9 @@
 
 
 Network Working Group                                      M. Nottingham
-Internet-Draft                                           3 November 2026
+Internet-Draft                                           4 November 2026
 Intended status: Standards Track                                        
-Expires: 7 May 2027
+Expires: 8 May 2027
 
 
                             HTTP Link Hints
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 May 2027.
+   This Internet-Draft will expire on 8 May 2027.
 
 Copyright Notice
 
@@ -70,6 +70,9 @@ Table of Contents
    1.  Introduction
      1.1.  Notational Conventions
    2.  HTTP Link Hints
+     2.1.  Hint Values
+     2.2.  Link Header Field Serialisation
+     2.3.  Other Serialisations
    3.  Pre-Defined HTTP Link Hints
      3.1.  allow
      3.2.  formats
@@ -128,9 +131,9 @@ Table of Contents
    containing it (such as a widgets collection) or describing it (e.g.,
    one linked to it with a "describedby" link relation).
 
-   There is not a single way to convey hints with a link; rather, it is
-   expected that this will be done by individual link serialisations
-   (see Section 3.4.1 of [WEB-LINKING]).
+   Hints are conveyed with a link by its serialisation.  This
+   specification defines how for the Link HTTP header field
+   (Section 2.2); other serialisations define their own (Section 2.3).
 
    Finally, these hints are not universally applicable to all links.
    Section 2.2 of [WEB-LINKING] specifies that the name space of target
@@ -144,24 +147,29 @@ Table of Contents
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in BCP
-   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
+
+   This document uses the Augmented Backus-Naur Form (ABNF) notation of
+   [RFC5234] (including the ALPHA, DIGIT, and SP rules).
 
 2.  HTTP Link Hints
 
-   An HTTP link hint is a (key, value) tuple that either describes the
+   An HTTP link hint is a (name, value) tuple that either describes the
    target resource of a Web link [WEB-LINKING] to a HTTP or HTTPS
    resource, or describes such a link itself.  The value's content model
-   is expressed in a subset of the data types defined by HTTP Structured
-   Fields [STRUCTURED-FIELDS].  Recipients MUST ignore hints that do not
-   conform to their defined content model.
+   is either a String or a List of Strings (Section 2.1), drawn from the
+   data types defined by HTTP Structured Fields [STRUCTURED-FIELDS] but
+   with a textual form of its own.  Recipients MUST ignore hints that do
+   not conform to their defined content model.
 
    Typically, HTTP link hints are serialised in links as target
-   attributes (Section 3.4.1 of [WEB-LINKING]).  In the Link HTTP
-   Header, this can be done by serialising those attributes as strings.
-   In other link formats, this requires a mapping from the content model
-   into the constraints of that format.
+   attributes (Section 3.4 of [WEB-LINKING]).  Section 2.1 defines a
+   textual form for hint values that serialisations can use as it
+   stands; Section 2.2 applies it to the Link HTTP header field.  Other
+   link formats can reference it, or map the content model onto the
+   constraints of that format (Section 2.3).
 
    The information in a hint SHOULD NOT be considered valid for longer
    than the freshness lifetime (Section 4.2 of [HTTP-CACHING], including
@@ -174,6 +182,80 @@ Table of Contents
    particular user, the hints on links in that representation are also
    specific to that user.
 
+2.1.  Hint Values
+
+   This specification defines a simple data model for hint values.  A
+   String is a sequence of zero or more printable ASCII characters
+   (%x20-7E).  A List is an ordered sequence of zero or more Strings.
+
+   Their textual form is:
+
+   hint-value  = [ hint-member *( *SP "," *SP hint-member ) ]
+   hint-member = hint-token / hint-string
+   hint-token  = ( ALPHA / "*" ) *( hint-tchar / ":" / "/" )
+   hint-tchar  = ALPHA / DIGIT / "!" / "#" / "$" / "&" / "*" / "+"
+               / "-" / "." / "^" / "_" / "`" / "|" / "~"
+   hint-string = SQUOTE *( hint-char / SQUOTE SQUOTE ) SQUOTE
+   hint-char   = %x20-26 / %x28-7E
+   SQUOTE      = %x27
+
+   Strings can take either of two forms: as a bare hint-token (when its
+   content allows), or a ' delimited hint-string when it does not. hint-
+   strings escape ' with ''.  No other character is special inside a
+   hint-string; in particular, " and \ are ordinary characters.  A hint-
+   token and a hint-string that yield the same characters are the same
+   String, so GET and 'GET' are equivalent.
+
+   A List is the sequence of its members.  A hint whose content model is
+   a String has exactly one member; a List has any number, including
+   none.
+
+2.2.  Link Header Field Serialisation
+
+   In a Link header field (Section 3 of [WEB-LINKING]), a link hint is a
+   target attribute: a link-param whose name is the hint name and whose
+   value is the hint's textual form.  This section defines how hints are
+   serialised; it does not by itself make them applicable to every link
+   (see Section 1).
+
+   If the textual form is valid as a token (Section 5.6.2 of [HTTP]), it
+   can be sent as one.  Otherwise it MUST be sent as a quoted-string
+   (Section 5.6.4 of [HTTP]), with each " and \ preceded by a backslash.
+   Recipients parse both forms and treat them identically, as Section 3
+   of [WEB-LINKING] requires; the hint-value is the value after any
+   unquoting.
+
+   Note that / and : are not token characters in HTTP, so most media
+   types need a quoted-string even without parameters.
+
+   If a hint appears more than once in a link-value, the first
+   occurrence is used and the rest are ignored.
+
+   For example:
+
+   Link: </widgets/1>; rel="item";
+         allow="GET, PUT";
+         accept-patch="application/merge-patch+json";
+         accept-post="application/json, 'text/plain; charset=utf-8'";
+         auth-schemes=Bearer;
+         auth-realms="'Bob''s Files', staff";
+         status=deprecated
+
+   Here, the apostrophe in the realm requires doubling, but nothing
+   needs a backslash.  Only a " or \ in the content does, and then only
+   once, at the Link layer:
+
+   Link: </widgets/1>; rel="item";
+         accept-post="'application/x; profile=\"https://example.net/p\"'"
+
+2.3.  Other Serialisations
+
+   This specification does not define mappings for other link
+   serialisations.  A serialisation with text-valued attributes (e.g.,
+   an XML-based one) can carry the textual form as the attribute value.
+   A serialisation with a structured data model (e.g., JSON) can carry a
+   String as a string and a List as an array of strings.
+
 3.  Pre-Defined HTTP Link Hints
 
 3.1.  allow
@@ -184,11 +266,11 @@ Table of Contents
       with the target resource; equivalent to the Allow HTTP response
       header.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a HTTP method (Section 9 of [HTTP]);
+   Each String in the List is a HTTP method (Section 9 of [HTTP]);
    unrecognised values MUST be ignored by recipients.
 
 3.2.  formats
@@ -199,12 +281,12 @@ Table of Contents
       resource can produce and consume, using the GET and PUT (if
       allowed) methods respectively.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a media type (Section 8.3.1 of
-   [HTTP]); unrecognised values MUST be ignored by recipients.
+   Each String in the List is a media type (Section 8.3.1 of [HTTP]);
+   unrecognised values MUST be ignored by recipients.
 
 3.3.  accept-post
 
@@ -213,12 +295,12 @@ Table of Contents
    *  Description: Hints the POST request format(s) that the target
       resource can consume.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a media type (Section 8.3.1 of
-   [HTTP]); unrecognised values MUST be ignored by recipients.
+   Each String in the List is a media type (Section 8.3.1 of [HTTP]);
+   unrecognised values MUST be ignored by recipients.
 
    When this hint is present, "POST" SHOULD be listed in the "allow"
    hint when present.
@@ -231,12 +313,12 @@ Table of Contents
       target resource can consume; equivalent to the Accept-Patch HTTP
       response header.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a media type (Section 8.3.1 of
-   [HTTP]) that identifies an acceptable patch format (see [PATCH]);
+   Each String in the List is a media type (Section 8.3.1 of [HTTP])
+   that identifies an acceptable patch format (see [PATCH]);
    unrecognised values MUST be ignored by recipients.
 
    When this hint is present, "PATCH" SHOULD be listed in the "allow"
@@ -250,12 +332,12 @@ Table of Contents
       target resource can consume; equivalent to the Accept-Query HTTP
       response header.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a media type (Section 8.3.1 of
-   [HTTP]) that identifies an acceptable query format (see [QUERY]);
+   Each String in the List is a media type (Section 8.3.1 of [HTTP])
+   that identifies an acceptable query format (see [QUERY]);
    unrecognised values MUST be ignored by recipients.
 
    When this hint is present, "QUERY" SHOULD be listed in the "allow"
@@ -265,16 +347,16 @@ Table of Contents
 
    *  Hint Name: accept-ranges
 
-   *  Description: Hints the range-specifier(s) available for the target
+   *  Description: Hints the range-unit(s) available for the target
       resource; equivalent to the Accept-Ranges HTTP response header
       [HTTP].
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a range-unit (Section 14.1 of
-   [HTTP]); unrecognised values MUST be ignored by recipients.
+   Each String in the List is a range-unit (Section 14.1 of [HTTP]);
+   unrecognised values MUST be ignored by recipients.
 
 3.7.  accept-prefer
 
@@ -283,13 +365,13 @@ Table of Contents
    *  Description: Hints the preference(s) [RFC7240] that the target
       resource understands (and might act upon) in requests.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is a preference (Section 2 of
-   [RFC7240]); unrecognised values MUST be ignored by recipients.  Note
-   that, by its nature, a preference can be ignored by the server.
+   Each String in the List is a preference (Section 2 of [RFC7240]);
+   unrecognised values MUST be ignored by recipients.  Note that, by its
+   nature, a preference can be ignored by the server.
 
 3.8.  precondition-req
 
@@ -300,7 +382,7 @@ Table of Contents
       per Section 13.1 of [HTTP], to avoid conflicts due to concurrent
       updates.
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
@@ -318,11 +400,11 @@ Table of Contents
       authentication using the HTTP Authentication framework Section 11
       of [HTTP].
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List is an HTTP authentication scheme
+   Each String in the List is an HTTP authentication scheme
    (Section 11.1 of [HTTP]); unrecognised values MUST be ignored by
    recipients.
 
@@ -334,11 +416,11 @@ Table of Contents
       schemes that support them in the HTTP Authentication framework
       Section 11 of [HTTP].
 
-   *  Content Model: Inner List of Strings
+   *  Content Model: List of Strings
 
    *  Specification: [this document]
 
-   Each String in the Inner List identifies a protection space that the
+   Each String in the List identifies a protection space that the
    resource is a member of; unrecognised values MUST be ignored by
    recipients.
 
@@ -348,7 +430,7 @@ Table of Contents
 
    *  Description: Hints the status of the target resource.
 
-   *  Content Model: Token
+   *  Content Model: String
 
    *  Specification: [this document]
 
@@ -360,7 +442,7 @@ Table of Contents
    *  gone - indicates that the resource is no longer available; i.e.,
       it will return a 410 (Gone) HTTP status code if accessed.
 
-   Unrecognised Tokens MUST be ignored by recipients.
+   Unrecognised Strings MUST be ignored by recipients.
 
 4.  Security Considerations
 
@@ -436,13 +518,8 @@ Table of Contents
    (0-9), underscores ("_") and hyphens ("-"), and MUST begin with a
    lowercase letter.
 
-   Hint content MUST be described using valid combinations of the
-   following types defined by HTTP Structured Fields
-   ([STRUCTURED-FIELDS]):
-
-   *  Inner List (Section 3.1.1 of [STRUCTURED-FIELDS])
-
-   *  Item (Section 3.3 of [STRUCTURED-FIELDS])
+   Hint content MUST be a String or a List of Strings (Section 2.1); the
+   registration states which.
 
    Hint semantics SHOULD be described in terms of the framework defined
    in [WEB-LINKING].
@@ -455,13 +532,14 @@ Table of Contents
 
    *  Description: [a short description of the hint's semantics]
 
-   *  Content Model: [allowed Structured Fields types]
+   *  Content Model: [String or List of Strings]
 
    *  Specification: [reference to specification document]
 
    Initial registrations are enumerated in Section 3.  Additionally, the
-   "rel", "rev", "hreflang", "media", "title", and "type" hint names are
-   reserved, so as to avoid potential clashes with link serialisations.
+   "anchor", "rel", "rev", "hreflang", "media", "title", and "type" hint
+   names are reserved, so as to avoid potential clashes with link
+   serialisations.
 
 6.  References
 
@@ -483,6 +561,11 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234,
+              DOI 10.17487/RFC5234, January 2008,
+              <https://www.rfc-editor.org/rfc/rfc5234>.
+
    [RFC7240]  Snell, J., "Prefer Header for HTTP", RFC 7240,
               DOI 10.17487/RFC7240, June 2014,
               <https://www.rfc-editor.org/rfc/rfc7240>.
@@ -490,11 +573,6 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
-
-   [STRUCTURED-FIELDS]
-              Nottingham, M. and P. Kamp, "Structured Field Values for
-              HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
-              <https://www.rfc-editor.org/rfc/rfc9651>.
 
    [WEB-LINKING]
               Nottingham, M., "Web Linking", RFC 8288,
@@ -519,6 +597,11 @@ Table of Contents
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/rfc/rfc8126>.
+
+   [STRUCTURED-FIELDS]
+              Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
+              <https://www.rfc-editor.org/rfc/rfc9651>.
 
 Appendix A.  Acknowledgements
 
