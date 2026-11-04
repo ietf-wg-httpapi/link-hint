@@ -71,7 +71,7 @@ ALPHA, DIGIT, and SP rules).
 
 # HTTP Link Hints {#link_hints}
 
-An HTTP link hint is a (name, value) tuple that either describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource, or describes such a link itself. The value's content model is either a String or a List of Strings ({{values}}), drawn from the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}} but with a textual form of its own. Recipients MUST ignore hints that do not conform to their defined content model.
+An HTTP link hint is a (name, value) tuple that describes the target resource of a Web link {{WEB-LINKING}} to an HTTP or HTTPS resource. The value's content model is either a String or a List of Strings ({{values}}), drawn from the data types defined by HTTP Structured Fields {{STRUCTURED-FIELDS}} but with a textual form of its own. Recipients MUST ignore hints that do not conform to their defined content model.
 
 Typically, HTTP link hints are serialised in links as target attributes ({{Section 3.4 of WEB-LINKING}}). {{values}} defines a textual form for hint values that serialisations can use as it stands; {{link-header}} applies it to the Link HTTP header field. Other link formats can reference it, or map the content model onto the constraints of that format ({{other-serialisations}}).
 
@@ -149,7 +149,7 @@ Each String in the List is an HTTP method ({{Section 9 of HTTP}}); unrecognised 
 ## formats
 
 * Hint Name: formats
-* Description: Hints the representation type(s) that the target resource can produce and consume, using the GET and PUT (if allowed) methods respectively.
+* Description: Hints the representation type(s) that the target resource can produce and consume, using the GET and PUT (if allowed) methods.
 * Content Model: List of Strings
 * Specification: \[this document]
 
@@ -214,7 +214,7 @@ Each String in the List is a preference ({{Section 2 of RFC7240}}); unrecognised
 * Content Model: List of Strings
 * Specification: \[this document]
 
-Possible values for the String are "etag" and "last-modified", indicating type of precondition expected. Other values MUST be ignored by recipients.
+Possible values for each String are "etag" and "last-modified", indicating type of precondition expected. Other values MUST be ignored by recipients.
 
 See also the 428 Precondition Required status code ({{?RFC6585}}).
 
