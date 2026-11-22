@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-19T04:47:25.154333+00:00",
+  "timestamp": "2026-11-22T03:46:29.975252+00:00",
   "repo": "ietf-wg-httpapi/link-hint",
   "labels": [
     {
@@ -221,7 +221,31 @@
       "labels": [],
       "body": "The names of all the other hints correspond to the respective HTTP header fields. Except `format`, which as I understand hints at possible value that can be sent by a client in an `accept` header field. Any particular reason for this choice?",
       "createdAt": "2026-01-31T23:45:29Z",
-      "updatedAt": "2026-01-31T23:45:29Z",
+      "updatedAt": "2026-11-20T17:03:09Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "I read the spec and have a similar question. `format` seems to overload a hint for two different purposes, which implies a symmetry on method handling that HTTP doesn't require",
+          "createdAt": "2026-11-20T17:03:09Z",
+          "updatedAt": "2026-11-20T17:03:09Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOKMq2fs8AAAABhGXZIw",
+      "title": "Struggling to understand who or what defines link hints are applicable, and how",
+      "url": "https://github.com/ietf-wg-httpapi/link-hint/issues/10",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "First, the draft itself is pretty clear on the whole. However, there's an illustrative example for rel=\"item\", which raises the question of who or what would define that links hints are applicable to the link. Would it be a hypothetical update document to [RFC 6573](https://www.rfc-editor.org/info/rfc6573/) to allow link hints for all users of the item relation, or something like like an application profile or resource-specific level.\n\nIt seems some of this is motivated to avoid naming collisions, which makes sense. However, if a relation type wants to opt in and discovers the collision, that sucks for them and I'm not sure how they'd choose to solve it. So perhaps you could skirt that sort of problem with a `lh-` prefix or something to reduce the chances of collisions i.e. `lh-status`",
+      "createdAt": "2026-11-20T17:16:18Z",
+      "updatedAt": "2026-11-20T17:16:18Z",
       "closedAt": null,
       "comments": []
     }
